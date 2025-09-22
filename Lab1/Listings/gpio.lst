@@ -1,0 +1,3335 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; gpio.s
+    2 00000000         ; Desenvolvido para a placa EK-TM4C1294XL
+    3 00000000         ; Prof. Guilherme Peron
+    4 00000000         ; 19/03/2018
+    5 00000000         
+    6 00000000         ; ------------------------------------------------------
+                       -------------------------
+    7 00000000                 THUMB                        ; Instruções do tip
+                                                            o Thumb-2
+    8 00000000         ; ------------------------------------------------------
+                       -------------------------
+    9 00000000         ; Declarações EQU - Defines
+   10 00000000         ; ========================
+   11 00000000         ; Definições dos Registradores Gerais
+   12 00000000 400FE608 
+                       SYSCTL_RCGCGPIO_R
+                               EQU              0x400FE608
+   13 00000000 400FEA08 
+                       SYSCTL_PRGPIO_R
+                               EQU              0x400FEA08
+   14 00000000         
+   15 00000000         ; ========================
+   16 00000000         ; NVIC
+   17 00000000 E000E104 
+                       NVIC_EN1_R
+                               EQU              0xE000E104
+   18 00000000 E000E430 
+                       NVIC_PRI12_R
+                               EQU              0xE000E430
+   19 00000000         ; ========================
+   20 00000000         ; Definições dos Ports
+   21 00000000         ; PORT J
+   22 00000000 40060000 
+                       GPIO_PORTJ_DATA_BITS_R
+                               EQU              0x40060000
+   23 00000000 400603FC 
+                       GPIO_PORTJ_DATA_R
+                               EQU              0x400603FC
+   24 00000000 40060400 
+                       GPIO_PORTJ_DIR_R
+                               EQU              0x40060400
+   25 00000000 40060404 
+                       GPIO_PORTJ_IS_R
+                               EQU              0x40060404
+   26 00000000 40060408 
+                       GPIO_PORTJ_IBE_R
+                               EQU              0x40060408
+   27 00000000 4006040C 
+                       GPIO_PORTJ_IEV_R
+                               EQU              0x4006040C
+   28 00000000 40060410 
+                       GPIO_PORTJ_IM_R
+                               EQU              0x40060410
+   29 00000000 40060414 
+                       GPIO_PORTJ_RIS_R
+                               EQU              0x40060414
+   30 00000000 40060418 
+                       GPIO_PORTJ_MIS_R
+                               EQU              0x40060418
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   31 00000000 4006041C 
+                       GPIO_PORTJ_ICR_R
+                               EQU              0x4006041C
+   32 00000000 40060420 
+                       GPIO_PORTJ_AFSEL_R
+                               EQU              0x40060420
+   33 00000000 40060500 
+                       GPIO_PORTJ_DR2R_R
+                               EQU              0x40060500
+   34 00000000 40060504 
+                       GPIO_PORTJ_DR4R_R
+                               EQU              0x40060504
+   35 00000000 40060508 
+                       GPIO_PORTJ_DR8R_R
+                               EQU              0x40060508
+   36 00000000 4006050C 
+                       GPIO_PORTJ_ODR_R
+                               EQU              0x4006050C
+   37 00000000 40060510 
+                       GPIO_PORTJ_PUR_R
+                               EQU              0x40060510
+   38 00000000 40060514 
+                       GPIO_PORTJ_PDR_R
+                               EQU              0x40060514
+   39 00000000 40060518 
+                       GPIO_PORTJ_SLR_R
+                               EQU              0x40060518
+   40 00000000 4006051C 
+                       GPIO_PORTJ_DEN_R
+                               EQU              0x4006051C
+   41 00000000 40060520 
+                       GPIO_PORTJ_LOCK_R
+                               EQU              0x40060520
+   42 00000000 40060524 
+                       GPIO_PORTJ_CR_R
+                               EQU              0x40060524
+   43 00000000 40060528 
+                       GPIO_PORTJ_AMSEL_R
+                               EQU              0x40060528
+   44 00000000 4006052C 
+                       GPIO_PORTJ_PCTL_R
+                               EQU              0x4006052C
+   45 00000000 40060530 
+                       GPIO_PORTJ_ADCCTL_R
+                               EQU              0x40060530
+   46 00000000 40060534 
+                       GPIO_PORTJ_DMACTL_R
+                               EQU              0x40060534
+   47 00000000 40060538 
+                       GPIO_PORTJ_SI_R
+                               EQU              0x40060538
+   48 00000000 4006053C 
+                       GPIO_PORTJ_DR12R_R
+                               EQU              0x4006053C
+   49 00000000 40060540 
+                       GPIO_PORTJ_WAKEPEN_R
+                               EQU              0x40060540
+   50 00000000 40060544 
+                       GPIO_PORTJ_WAKELVL_R
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+                               EQU              0x40060544
+   51 00000000 40060548 
+                       GPIO_PORTJ_WAKESTAT_R
+                               EQU              0x40060548
+   52 00000000 40060FC0 
+                       GPIO_PORTJ_PP_R
+                               EQU              0x40060FC0
+   53 00000000 40060FC4 
+                       GPIO_PORTJ_PC_R
+                               EQU              0x40060FC4
+   54 00000000 00000100 
+                       GPIO_PORTJ
+                               EQU              2_000000100000000
+   55 00000000         
+   56 00000000 40064000 
+                       GPIO_PORTN_DATA_BITS_R
+                               EQU              0x40064000
+   57 00000000 400643FC 
+                       GPIO_PORTN_DATA_R
+                               EQU              0x400643FC
+   58 00000000 40064400 
+                       GPIO_PORTN_DIR_R
+                               EQU              0x40064400
+   59 00000000 40064404 
+                       GPIO_PORTN_IS_R
+                               EQU              0x40064404
+   60 00000000 40064408 
+                       GPIO_PORTN_IBE_R
+                               EQU              0x40064408
+   61 00000000 4006440C 
+                       GPIO_PORTN_IEV_R
+                               EQU              0x4006440C
+   62 00000000 40064410 
+                       GPIO_PORTN_IM_R
+                               EQU              0x40064410
+   63 00000000 40064414 
+                       GPIO_PORTN_RIS_R
+                               EQU              0x40064414
+   64 00000000 40064418 
+                       GPIO_PORTN_MIS_R
+                               EQU              0x40064418
+   65 00000000 4006441C 
+                       GPIO_PORTN_ICR_R
+                               EQU              0x4006441C
+   66 00000000 40064420 
+                       GPIO_PORTN_AFSEL_R
+                               EQU              0x40064420
+   67 00000000 40064500 
+                       GPIO_PORTN_DR2R_R
+                               EQU              0x40064500
+   68 00000000 40064504 
+                       GPIO_PORTN_DR4R_R
+                               EQU              0x40064504
+   69 00000000 40064508 
+                       GPIO_PORTN_DR8R_R
+                               EQU              0x40064508
+   70 00000000 4006450C 
+                       GPIO_PORTN_ODR_R
+                               EQU              0x4006450C
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+   71 00000000 40064510 
+                       GPIO_PORTN_PUR_R
+                               EQU              0x40064510
+   72 00000000 40064514 
+                       GPIO_PORTN_PDR_R
+                               EQU              0x40064514
+   73 00000000 40064518 
+                       GPIO_PORTN_SLR_R
+                               EQU              0x40064518
+   74 00000000 4006451C 
+                       GPIO_PORTN_DEN_R
+                               EQU              0x4006451C
+   75 00000000 40064520 
+                       GPIO_PORTN_LOCK_R
+                               EQU              0x40064520
+   76 00000000 40064524 
+                       GPIO_PORTN_CR_R
+                               EQU              0x40064524
+   77 00000000 40064528 
+                       GPIO_PORTN_AMSEL_R
+                               EQU              0x40064528
+   78 00000000 4006452C 
+                       GPIO_PORTN_PCTL_R
+                               EQU              0x4006452C
+   79 00000000 40064530 
+                       GPIO_PORTN_ADCCTL_R
+                               EQU              0x40064530
+   80 00000000 40064534 
+                       GPIO_PORTN_DMACTL_R
+                               EQU              0x40064534
+   81 00000000 40064538 
+                       GPIO_PORTN_SI_R
+                               EQU              0x40064538
+   82 00000000 4006453C 
+                       GPIO_PORTN_DR12R_R
+                               EQU              0x4006453C
+   83 00000000 40064540 
+                       GPIO_PORTN_WAKEPEN_R
+                               EQU              0x40064540
+   84 00000000 40064544 
+                       GPIO_PORTN_WAKELVL_R
+                               EQU              0x40064544
+   85 00000000 40064548 
+                       GPIO_PORTN_WAKESTAT_R
+                               EQU              0x40064548
+   86 00000000 40064FC0 
+                       GPIO_PORTN_PP_R
+                               EQU              0x40064FC0
+   87 00000000 40064FC4 
+                       GPIO_PORTN_PC_R
+                               EQU              0x40064FC4
+   88 00000000 00001000 
+                       GPIO_PORTN
+                               EQU              2_001000000000000
+   89 00000000         
+   90 00000000 40058000 
+                       GPIO_PORTA_DATA_BITS_R
+                               EQU              0x40058000
+   91 00000000 400583FC 
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+                       GPIO_PORTA_DATA_R
+                               EQU              0x400583FC
+   92 00000000 40058400 
+                       GPIO_PORTA_DIR_R
+                               EQU              0x40058400
+   93 00000000 40058404 
+                       GPIO_PORTA_IS_R
+                               EQU              0x40058404
+   94 00000000 40058408 
+                       GPIO_PORTA_IBE_R
+                               EQU              0x40058408
+   95 00000000 4005840C 
+                       GPIO_PORTA_IEV_R
+                               EQU              0x4005840C
+   96 00000000 40058410 
+                       GPIO_PORTA_IM_R
+                               EQU              0x40058410
+   97 00000000 40058414 
+                       GPIO_PORTA_RIS_R
+                               EQU              0x40058414
+   98 00000000 40058418 
+                       GPIO_PORTA_MIS_R
+                               EQU              0x40058418
+   99 00000000 4005841C 
+                       GPIO_PORTA_ICR_R
+                               EQU              0x4005841C
+  100 00000000 40058420 
+                       GPIO_PORTA_AFSEL_R
+                               EQU              0x40058420
+  101 00000000 40058500 
+                       GPIO_PORTA_DR2R_R
+                               EQU              0x40058500
+  102 00000000 40058504 
+                       GPIO_PORTA_DR4R_R
+                               EQU              0x40058504
+  103 00000000 40058508 
+                       GPIO_PORTA_DR8R_R
+                               EQU              0x40058508
+  104 00000000 4005850C 
+                       GPIO_PORTA_ODR_R
+                               EQU              0x4005850C
+  105 00000000 40058510 
+                       GPIO_PORTA_PUR_R
+                               EQU              0x40058510
+  106 00000000 40058514 
+                       GPIO_PORTA_PDR_R
+                               EQU              0x40058514
+  107 00000000 40058518 
+                       GPIO_PORTA_SLR_R
+                               EQU              0x40058518
+  108 00000000 4005851C 
+                       GPIO_PORTA_DEN_R
+                               EQU              0x4005851C
+  109 00000000 40058520 
+                       GPIO_PORTA_LOCK_R
+                               EQU              0x40058520
+  110 00000000 40058524 
+                       GPIO_PORTA_CR_R
+                               EQU              0x40058524
+
+
+
+ARM Macro Assembler    Page 6 
+
+
+  111 00000000 40058528 
+                       GPIO_PORTA_AMSEL_R
+                               EQU              0x40058528
+  112 00000000 4005852C 
+                       GPIO_PORTA_PCTL_R
+                               EQU              0x4005852C
+  113 00000000 40058530 
+                       GPIO_PORTA_ADCCTL_R
+                               EQU              0x40058530
+  114 00000000 40058534 
+                       GPIO_PORTA_DMACTL_R
+                               EQU              0x40058534
+  115 00000000 40058538 
+                       GPIO_PORTA_SI_R
+                               EQU              0x40058538
+  116 00000000 4005853C 
+                       GPIO_PORTA_DR12R_R
+                               EQU              0x4005853C
+  117 00000000 40058540 
+                       GPIO_PORTA_WAKEPEN_R
+                               EQU              0x40058540
+  118 00000000 40058544 
+                       GPIO_PORTA_WAKELVL_R
+                               EQU              0x40058544
+  119 00000000 40058548 
+                       GPIO_PORTA_WAKESTAT_R
+                               EQU              0x40058548
+  120 00000000 40058FC0 
+                       GPIO_PORTA_PP_R
+                               EQU              0x40058FC0
+  121 00000000 40058FC4 
+                       GPIO_PORTA_PC_R
+                               EQU              0x40058FC4
+  122 00000000 00000001 
+                       GPIO_PORTA
+                               EQU              2_000000000000001
+  123 00000000         
+  124 00000000 40066000 
+                       GPIO_PORTQ_DATA_BITS_R
+                               EQU              0x40066000
+  125 00000000 400663FC 
+                       GPIO_PORTQ_DATA_R
+                               EQU              0x400663FC
+  126 00000000 40066400 
+                       GPIO_PORTQ_DIR_R
+                               EQU              0x40066400
+  127 00000000 40066404 
+                       GPIO_PORTQ_IS_R
+                               EQU              0x40066404
+  128 00000000 40066408 
+                       GPIO_PORTQ_IBE_R
+                               EQU              0x40066408
+  129 00000000 4006640C 
+                       GPIO_PORTQ_IEV_R
+                               EQU              0x4006640C
+  130 00000000 40066410 
+                       GPIO_PORTQ_IM_R
+                               EQU              0x40066410
+  131 00000000 40066414 
+
+
+
+ARM Macro Assembler    Page 7 
+
+
+                       GPIO_PORTQ_RIS_R
+                               EQU              0x40066414
+  132 00000000 40066418 
+                       GPIO_PORTQ_MIS_R
+                               EQU              0x40066418
+  133 00000000 4006641C 
+                       GPIO_PORTQ_ICR_R
+                               EQU              0x4006641C
+  134 00000000 40066420 
+                       GPIO_PORTQ_AFSEL_R
+                               EQU              0x40066420
+  135 00000000 40066500 
+                       GPIO_PORTQ_DR2R_R
+                               EQU              0x40066500
+  136 00000000 40066504 
+                       GPIO_PORTQ_DR4R_R
+                               EQU              0x40066504
+  137 00000000 40066508 
+                       GPIO_PORTQ_DR8R_R
+                               EQU              0x40066508
+  138 00000000 4006650C 
+                       GPIO_PORTQ_ODR_R
+                               EQU              0x4006650C
+  139 00000000 40066510 
+                       GPIO_PORTQ_PUR_R
+                               EQU              0x40066510
+  140 00000000 40066514 
+                       GPIO_PORTQ_PDR_R
+                               EQU              0x40066514
+  141 00000000 40066518 
+                       GPIO_PORTQ_SLR_R
+                               EQU              0x40066518
+  142 00000000 4006651C 
+                       GPIO_PORTQ_DEN_R
+                               EQU              0x4006651C
+  143 00000000 40066520 
+                       GPIO_PORTQ_LOCK_R
+                               EQU              0x40066520
+  144 00000000 40066524 
+                       GPIO_PORTQ_CR_R
+                               EQU              0x40066524
+  145 00000000 40066528 
+                       GPIO_PORTQ_AMSEL_R
+                               EQU              0x40066528
+  146 00000000 4006652C 
+                       GPIO_PORTQ_PCTL_R
+                               EQU              0x4006652C
+  147 00000000 40066530 
+                       GPIO_PORTQ_ADCCTL_R
+                               EQU              0x40066530
+  148 00000000 40066534 
+                       GPIO_PORTQ_DMACTL_R
+                               EQU              0x40066534
+  149 00000000 40066538 
+                       GPIO_PORTQ_SI_R
+                               EQU              0x40066538
+  150 00000000 4006653C 
+                       GPIO_PORTQ_DR12R_R
+                               EQU              0x4006653C
+
+
+
+ARM Macro Assembler    Page 8 
+
+
+  151 00000000 40066540 
+                       GPIO_PORTQ_WAKEPEN_R
+                               EQU              0x40066540
+  152 00000000 40066544 
+                       GPIO_PORTQ_WAKELVL_R
+                               EQU              0x40066544
+  153 00000000 40066548 
+                       GPIO_PORTQ_WAKESTAT_R
+                               EQU              0x40066548
+  154 00000000 40066FC0 
+                       GPIO_PORTQ_PP_R
+                               EQU              0x40066FC0
+  155 00000000 40066FC4 
+                       GPIO_PORTQ_PC_R
+                               EQU              0x40066FC4
+  156 00000000 00004000 
+                       GPIO_PORTQ
+                               EQU              2_100000000000000
+  157 00000000         
+  158 00000000 40059000 
+                       GPIO_PORTB_DATA_BITS_R
+                               EQU              0x40059000
+  159 00000000 400593FC 
+                       GPIO_PORTB_DATA_R
+                               EQU              0x400593FC
+  160 00000000 40059400 
+                       GPIO_PORTB_DIR_R
+                               EQU              0x40059400
+  161 00000000 40059404 
+                       GPIO_PORTB_IS_R
+                               EQU              0x40059404
+  162 00000000 40059408 
+                       GPIO_PORTB_IBE_R
+                               EQU              0x40059408
+  163 00000000 4005940C 
+                       GPIO_PORTB_IEV_R
+                               EQU              0x4005940C
+  164 00000000 40059410 
+                       GPIO_PORTB_IM_R
+                               EQU              0x40059410
+  165 00000000 40059414 
+                       GPIO_PORTB_RIS_R
+                               EQU              0x40059414
+  166 00000000 40059418 
+                       GPIO_PORTB_MIS_R
+                               EQU              0x40059418
+  167 00000000 4005941C 
+                       GPIO_PORTB_ICR_R
+                               EQU              0x4005941C
+  168 00000000 40059420 
+                       GPIO_PORTB_AFSEL_R
+                               EQU              0x40059420
+  169 00000000 40059500 
+                       GPIO_PORTB_DR2R_R
+                               EQU              0x40059500
+  170 00000000 40059504 
+                       GPIO_PORTB_DR4R_R
+                               EQU              0x40059504
+  171 00000000 40059508 
+
+
+
+ARM Macro Assembler    Page 9 
+
+
+                       GPIO_PORTB_DR8R_R
+                               EQU              0x40059508
+  172 00000000 4005950C 
+                       GPIO_PORTB_ODR_R
+                               EQU              0x4005950C
+  173 00000000 40059510 
+                       GPIO_PORTB_PUR_R
+                               EQU              0x40059510
+  174 00000000 40059514 
+                       GPIO_PORTB_PDR_R
+                               EQU              0x40059514
+  175 00000000 40059518 
+                       GPIO_PORTB_SLR_R
+                               EQU              0x40059518
+  176 00000000 4005951C 
+                       GPIO_PORTB_DEN_R
+                               EQU              0x4005951C
+  177 00000000 40059520 
+                       GPIO_PORTB_LOCK_R
+                               EQU              0x40059520
+  178 00000000 40059524 
+                       GPIO_PORTB_CR_R
+                               EQU              0x40059524
+  179 00000000 40059528 
+                       GPIO_PORTB_AMSEL_R
+                               EQU              0x40059528
+  180 00000000 4005952C 
+                       GPIO_PORTB_PCTL_R
+                               EQU              0x4005952C
+  181 00000000 40059530 
+                       GPIO_PORTB_ADCCTL_R
+                               EQU              0x40059530
+  182 00000000 40059534 
+                       GPIO_PORTB_DMACTL_R
+                               EQU              0x40059534
+  183 00000000 40059538 
+                       GPIO_PORTB_SI_R
+                               EQU              0x40059538
+  184 00000000 4005953C 
+                       GPIO_PORTB_DR12R_R
+                               EQU              0x4005953C
+  185 00000000 40059540 
+                       GPIO_PORTB_WAKEPEN_R
+                               EQU              0x40059540
+  186 00000000 40059544 
+                       GPIO_PORTB_WAKELVL_R
+                               EQU              0x40059544
+  187 00000000 40059548 
+                       GPIO_PORTB_WAKESTAT_R
+                               EQU              0x40059548
+  188 00000000 40059FC0 
+                       GPIO_PORTB_PP_R
+                               EQU              0x40059FC0
+  189 00000000 40059FC4 
+                       GPIO_PORTB_PC_R
+                               EQU              0x40059FC4
+  190 00000000 00000002 
+                       GPIO_PORTB
+                               EQU              2_000000000000010
+
+
+
+ARM Macro Assembler    Page 10 
+
+
+  191 00000000         
+  192 00000000 40065000 
+                       GPIO_PORTP_DATA_BITS_R
+                               EQU              0x40065000
+  193 00000000 400653FC 
+                       GPIO_PORTP_DATA_R
+                               EQU              0x400653FC
+  194 00000000 40065400 
+                       GPIO_PORTP_DIR_R
+                               EQU              0x40065400
+  195 00000000 40065404 
+                       GPIO_PORTP_IS_R
+                               EQU              0x40065404
+  196 00000000 40065408 
+                       GPIO_PORTP_IBE_R
+                               EQU              0x40065408
+  197 00000000 4006540C 
+                       GPIO_PORTP_IEV_R
+                               EQU              0x4006540C
+  198 00000000 40065410 
+                       GPIO_PORTP_IM_R
+                               EQU              0x40065410
+  199 00000000 40065414 
+                       GPIO_PORTP_RIS_R
+                               EQU              0x40065414
+  200 00000000 40065418 
+                       GPIO_PORTP_MIS_R
+                               EQU              0x40065418
+  201 00000000 4006541C 
+                       GPIO_PORTP_ICR_R
+                               EQU              0x4006541C
+  202 00000000 40065420 
+                       GPIO_PORTP_AFSEL_R
+                               EQU              0x40065420
+  203 00000000 40065500 
+                       GPIO_PORTP_DR2R_R
+                               EQU              0x40065500
+  204 00000000 40065504 
+                       GPIO_PORTP_DR4R_R
+                               EQU              0x40065504
+  205 00000000 40065508 
+                       GPIO_PORTP_DR8R_R
+                               EQU              0x40065508
+  206 00000000 4006550C 
+                       GPIO_PORTP_ODR_R
+                               EQU              0x4006550C
+  207 00000000 40065510 
+                       GPIO_PORTP_PUR_R
+                               EQU              0x40065510
+  208 00000000 40065514 
+                       GPIO_PORTP_PDR_R
+                               EQU              0x40065514
+  209 00000000 40065518 
+                       GPIO_PORTP_SLR_R
+                               EQU              0x40065518
+  210 00000000 4006551C 
+                       GPIO_PORTP_DEN_R
+                               EQU              0x4006551C
+  211 00000000 40065520 
+
+
+
+ARM Macro Assembler    Page 11 
+
+
+                       GPIO_PORTP_LOCK_R
+                               EQU              0x40065520
+  212 00000000 40065524 
+                       GPIO_PORTP_CR_R
+                               EQU              0x40065524
+  213 00000000 40065528 
+                       GPIO_PORTP_AMSEL_R
+                               EQU              0x40065528
+  214 00000000 4006552C 
+                       GPIO_PORTP_PCTL_R
+                               EQU              0x4006552C
+  215 00000000 40065530 
+                       GPIO_PORTP_ADCCTL_R
+                               EQU              0x40065530
+  216 00000000 40065534 
+                       GPIO_PORTP_DMACTL_R
+                               EQU              0x40065534
+  217 00000000 40065538 
+                       GPIO_PORTP_SI_R
+                               EQU              0x40065538
+  218 00000000 4006553C 
+                       GPIO_PORTP_DR12R_R
+                               EQU              0x4006553C
+  219 00000000 40065540 
+                       GPIO_PORTP_WAKEPEN_R
+                               EQU              0x40065540
+  220 00000000 40065544 
+                       GPIO_PORTP_WAKELVL_R
+                               EQU              0x40065544
+  221 00000000 40065548 
+                       GPIO_PORTP_WAKESTAT_R
+                               EQU              0x40065548
+  222 00000000 40065FC0 
+                       GPIO_PORTP_PP_R
+                               EQU              0x40065FC0
+  223 00000000 40065FC4 
+                       GPIO_PORTP_PC_R
+                               EQU              0x40065FC4
+  224 00000000 00002000 
+                       GPIO_PORTP
+                               EQU              2_010000000000000
+  225 00000000         
+  226 00000000         
+  227 00000000         ; ------------------------------------------------------
+                       -------------------------
+  228 00000000         ; Área de Código - Tudo abaixo da diretiva a seguir será
+                        armazenado na memória de 
+  229 00000000         ;                  código
+  230 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+  231 00000000         
+  232 00000000         ; Se alguma função do arquivo for chamada em outro arqui
+                       vo 
+  233 00000000                 EXPORT           GPIO_Init   ; Permite chamar GP
+                                                            IO_Init de outro ar
+                                                            quivo
+  234 00000000                 EXPORT           PortN_Output ; Permite chamar P
+                                                            ortN_Output de outr
+                                                            o arquivo
+
+
+
+ARM Macro Assembler    Page 12 
+
+
+  235 00000000                 EXPORT           PortA_Output ; Permite chamar P
+                                                            ortN_Output de outr
+                                                            o arquivo
+  236 00000000                 EXPORT           PortQ_Output ; Permite chamar P
+                                                            ortN_Output de outr
+                                                            o arquivo
+  237 00000000                 EXPORT           PortB_Output ; Permite chamar P
+                                                            ortN_Output de outr
+                                                            o arquivo
+  238 00000000                 EXPORT           PortP_Output ; Permite chamar P
+                                                            ortN_Output de outr
+                                                            o arquivo
+  239 00000000                 EXPORT           GPIOPortJ_Handler
+  240 00000000                 IMPORT           EnableInterrupts
+  241 00000000                 IMPORT           DisableInterrupts
+  242 00000000                 IMPORT           SysTick_Wait1ms
+  243 00000000         
+  244 00000000         ;-------------------------------------------------------
+                       -------------------------
+  245 00000000         ; Função GPIO_Init
+  246 00000000         ; Parâmetro de entrada: Não tem
+  247 00000000         ; Parâmetro de saída: Não tem
+  248 00000000         GPIO_Init
+  249 00000000         ;=====================
+  250 00000000 4870            LDR              R0, =SYSCTL_RCGCGPIO_R ;Carrega
+                                                             o endereço do regi
+                                                            strador RCGCGPIO
+  251 00000002 F44F 5180       MOV              R1, #GPIO_PORTN ;Seta o bit da 
+                                                            porta N
+  252 00000006 F441 7180       ORR              R1, #GPIO_PORTJ ;Seta o bit da 
+                                                            porta J, fazendo co
+                                                            m OR
+  253 0000000A F041 0101       ORR              R1, #GPIO_PORTA ;Seta o bit da 
+                                                            porta A, fazendo co
+                                                            m OR
+  254 0000000E F441 4180       ORR              R1, #GPIO_PORTQ ;Seta o bit da 
+                                                            porta Q, fazendo co
+                                                            m OR
+  255 00000012 F041 0102       ORR              R1, #GPIO_PORTB ;Seta o bit da 
+                                                            porta B, fazendo co
+                                                            m OR
+  256 00000016 F441 5100       ORR              R1, #GPIO_PORTP ;Seta o bit da 
+                                                            porta P, fazendo co
+                                                            m OR
+  257 0000001A 6001            STR              R1, [R0]    ;Move para a memóri
+                                                            a os bits das porta
+                                                            s no endereço do RC
+                                                            GCGPIO
+  258 0000001C         
+  259 0000001C 486A            LDR              R0, =SYSCTL_PRGPIO_R ;Carrega o
+                                                             endereço do PRGPIO
+                                                             para esperar os GP
+                                                            IO ficarem prontos
+  260 0000001E 6801    EsperaGPIO
+                               LDR              R1, [R0]    ;Lê da memória o co
+                                                            nteúdo do endereço 
+                                                            do registrador
+  261 00000020 F44F 5280       MOV              R2, #GPIO_PORTN ;Seta os bits c
+                                                            orrespondentes às p
+
+
+
+ARM Macro Assembler    Page 13 
+
+
+                                                            ortas para fazer a 
+                                                            comparação
+  262 00000024 F442 7280       ORR              R2, #GPIO_PORTJ ;Seta o bit da 
+                                                            porta J, fazendo co
+                                                            m OR
+  263 00000028 F042 0201       ORR              R2, #GPIO_PORTA ;Seta o bit da 
+                                                            porta A, fazendo co
+                                                            m OR
+  264 0000002C F442 4280       ORR              R2, #GPIO_PORTQ ;Seta o bit da 
+                                                            porta Q, fazendo co
+                                                            m OR
+  265 00000030 F042 0202       ORR              R2, #GPIO_PORTB ;Seta o bit da 
+                                                            porta B, fazendo co
+                                                            m OR
+  266 00000034 F442 5200       ORR              R2, #GPIO_PORTP ;Seta o bit da 
+                                                            porta P, fazendo co
+                                                            m OR
+  267 00000038 4211            TST              R1, R2      ;ANDS de R1 com R2
+  268 0000003A D0F0            BEQ              EsperaGPIO  ;Se o flag Z=1, vol
+                                                            ta para o laço. Sen
+                                                            ão continua executa
+                                                            ndo
+  269 0000003C         
+  270 0000003C         ; 2. Limpar o AMSEL para desabilitar a analógica
+  271 0000003C F04F 0100       MOV              R1, #0x00   ;Colocar 0 no regis
+                                                            trador para desabil
+                                                            itar a função analó
+                                                            gica
+  272 00000040 4862            LDR              R0, =GPIO_PORTJ_AMSEL_R ;Carreg
+                                                            a o R0 com o endere
+                                                            ço do AMSEL para a 
+                                                            porta J
+  273 00000042 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor AMSEL da porta 
+                                                            J da memória
+  274 00000044 4862            LDR              R0, =GPIO_PORTN_AMSEL_R ;Carreg
+                                                            a o R0 com o endere
+                                                            ço do AMSEL para a 
+                                                            porta N
+  275 00000046 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor AMSEL da porta 
+                                                            N da memória
+  276 00000048 4862            LDR              R0, =GPIO_PORTA_AMSEL_R ;Carreg
+                                                            a o R0 com o endere
+                                                            ço do AMSEL para a 
+                                                            porta A
+  277 0000004A 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor AMSEL da porta 
+                                                            A da memória
+  278 0000004C 4862            LDR              R0, =GPIO_PORTQ_AMSEL_R ;Carreg
+                                                            a o R0 com o endere
+                                                            ço do AMSEL para a 
+                                                            porta Q
+  279 0000004E 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor AMSEL da porta 
+                                                            Q da memória
+  280 00000050 4862            LDR              R0, =GPIO_PORTB_AMSEL_R ;Carreg
+                                                            a o R0 com o endere
+                                                            ço do AMSEL para a 
+
+
+
+ARM Macro Assembler    Page 14 
+
+
+                                                            porta B
+  281 00000052 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor AMSEL da porta 
+                                                            B da memória
+  282 00000054 4862            LDR              R0, =GPIO_PORTP_AMSEL_R ;Carreg
+                                                            a o R0 com o endere
+                                                            ço do AMSEL para a 
+                                                            porta P
+  283 00000056 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor AMSEL da porta 
+                                                            P da memória
+  284 00000058         
+  285 00000058         ; 3. Limpar PCTL para selecionar o GPIO
+  286 00000058 F04F 0100       MOV              R1, #0x00   ;Colocar 0 no regis
+                                                            trador para selecio
+                                                            nar o modo GPIO
+  287 0000005C 4861            LDR              R0, =GPIO_PORTJ_PCTL_R ;Carrega
+                                                             o R0 com o endereç
+                                                            o do PCTL para a po
+                                                            rta J
+  288 0000005E 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor PCTL da porta J
+                                                             da memória
+  289 00000060 4861            LDR              R0, =GPIO_PORTN_PCTL_R ;Carrega
+                                                             o R0 com o endereç
+                                                            o do PCTL para a po
+                                                            rta N
+  290 00000062 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor PCTL da porta N
+                                                             da memória
+  291 00000064 4861            LDR              R0, =GPIO_PORTA_PCTL_R ;Carrega
+                                                             o R0 com o endereç
+                                                            o do PCTL para a po
+                                                            rta A
+  292 00000066 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor PCTL da porta A
+                                                             da memória
+  293 00000068 4861            LDR              R0, =GPIO_PORTQ_PCTL_R ;Carrega
+                                                             o R0 com o endereç
+                                                            o do PCTL para a po
+                                                            rta Q
+  294 0000006A 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor PCTL da porta Q
+                                                             da memória
+  295 0000006C 4861            LDR              R0, =GPIO_PORTB_PCTL_R ;Carrega
+                                                             o R0 com o endereç
+                                                            o do PCTL para a po
+                                                            rta B
+  296 0000006E 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor PCTL da porta B
+                                                             da memória
+  297 00000070 4861            LDR              R0, =GPIO_PORTP_PCTL_R ;Carrega
+                                                             o R0 com o endereç
+                                                            o do PCTL para a po
+                                                            rta P
+  298 00000072 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor PCTL da porta P
+                                                             da memória
+  299 00000074         
+
+
+
+ARM Macro Assembler    Page 15 
+
+
+  300 00000074         ; 4. DIR para 0 se for entrada, 1 se for saída
+  301 00000074 4861            LDR              R0, =GPIO_PORTN_DIR_R ;Carrega 
+                                                            o R0 com o endereço
+                                                             do DIR para a port
+                                                            a N
+  302 00000076 F04F 0103       MOV              R1, #2_00000011 ;1 no registrad
+                                                            or DIR do PN1 & PN0
+                                                             para o LED funcion
+                                                            ar como saida
+  303 0000007A 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor
+  304 0000007C         
+  305 0000007C 4860            LDR              R0, =GPIO_PORTA_DIR_R ;Carrega 
+                                                            o R0 com o endereço
+                                                             do DIR para a port
+                                                            a A
+  306 0000007E F04F 01F0       MOV              R1, #2_11110000 ;1 no registrad
+                                                            or DIR do PA7 ate P
+                                                            A4 para o LED funci
+                                                            onar como saida
+  307 00000082 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor
+  308 00000084         
+  309 00000084 485F            LDR              R0, =GPIO_PORTQ_DIR_R ;Carrega 
+                                                            o R0 com o endereço
+                                                             do DIR para a port
+                                                            a Q
+  310 00000086 F04F 010F       MOV              R1, #2_00001111 ;1 no registrad
+                                                            or DIR do PQ3 ate P
+                                                            Q0 para o LED funci
+                                                            onar como saida
+  311 0000008A 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor
+  312 0000008C         
+  313 0000008C 485E            LDR              R0, =GPIO_PORTB_DIR_R ;Carrega 
+                                                            o R0 com o endereço
+                                                             do DIR para a port
+                                                            a B
+  314 0000008E F04F 0130       MOV              R1, #2_00110000 ;1 no registrad
+                                                            or DIR do PB5 e PB4
+                                                             para o pino funcio
+                                                            nar como saida
+  315 00000092 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor
+  316 00000094         
+  317 00000094 485D            LDR              R0, =GPIO_PORTP_DIR_R ;Carrega 
+                                                            o R0 com o endereço
+                                                             do DIR para a port
+                                                            a p
+  318 00000096 F04F 0120       MOV              R1, #2_00100000 ;1 no registrad
+                                                            or DIR do PP5 para 
+                                                            o pino funcionar co
+                                                            mo saida
+  319 0000009A 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor
+  320 0000009C         
+  321 0000009C 485C            LDR              R0, =GPIO_PORTJ_DIR_R ;Carrega 
+                                                            o R0 com o endereço
+                                                             do DIR para a port
+
+
+
+ARM Macro Assembler    Page 16 
+
+
+                                                            a J
+  322 0000009E F04F 0100       MOV              R1, #2_00   ;0 no registrador D
+                                                            IR do PJ1 & PJ0 par
+                                                            a o Botão funcionar
+                                                             como entrada
+  323 000000A2 6001            STR              R1, [R0]    ;Guarda no registra
+                                                            dor
+  324 000000A4         
+  325 000000A4         ; 5. Limpar os bits AFSEL para 0 para selecionar GPIO 
+  326 000000A4         ;    Sem função alternativa
+  327 000000A4 F04F 0100       MOV              R1, #0x00   ;Colocar o valor 0 
+                                                            para não setar funç
+                                                            ão alternativa
+  328 000000A8 485A            LDR              R0, =GPIO_PORTN_AFSEL_R ;Carreg
+                                                            a o endereço do AFS
+                                                            EL da porta N
+  329 000000AA 6001            STR              R1, [R0]    ;Escreve na porta
+  330 000000AC 485A            LDR              R0, =GPIO_PORTJ_AFSEL_R ;Carreg
+                                                            a o endereço do AFS
+                                                            EL da porta J
+  331 000000AE 6001            STR              R1, [R0]    ;Escreve na porta
+  332 000000B0 485A            LDR              R0, =GPIO_PORTA_AFSEL_R ;Carreg
+                                                            a o endereço do AFS
+                                                            EL da porta A
+  333 000000B2 6001            STR              R1, [R0]    ;Escreve na porta
+  334 000000B4 485A            LDR              R0, =GPIO_PORTQ_AFSEL_R ;Carreg
+                                                            a o endereço do AFS
+                                                            EL da porta Q
+  335 000000B6 6001            STR              R1, [R0]    ;Escreve na porta
+  336 000000B8 485A            LDR              R0, =GPIO_PORTB_AFSEL_R ;Carreg
+                                                            a o endereço do AFS
+                                                            EL da porta B
+  337 000000BA 6001            STR              R1, [R0]    ;Escreve na porta
+  338 000000BC 485A            LDR              R0, =GPIO_PORTP_AFSEL_R ;Carreg
+                                                            a o endereço do AFS
+                                                            EL da porta P
+  339 000000BE 6001            STR              R1, [R0]    ;Escreve na porta
+  340 000000C0         
+  341 000000C0         ; 6. Setar os bits de DEN para habilitar I/O digital
+  342 000000C0 485A            LDR              R0, =GPIO_PORTN_DEN_R ;Carrega 
+                                                            o endereço do DEN
+  343 000000C2 F04F 0103       MOV              R1, #2_00000011 ;Ativa os pinos
+                                                             PN0 e PN1 como I/O
+                                                             Digital
+  344 000000C6 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador da memória fun
+                                                            cionalidade digital
+                                                             
+  345 000000C8         
+  346 000000C8 4859            LDR              R0, =GPIO_PORTA_DEN_R ;Carrega 
+                                                            o endereço do DEN
+  347 000000CA F04F 01F0       MOV              R1, #2_11110000 ;Ativa os pinos
+                                                             PA7 ate PA4 como I
+                                                            /O Digital
+  348 000000CE 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador da memória fun
+                                                            cionalidade digital
+                                                             
+  349 000000D0         
+
+
+
+ARM Macro Assembler    Page 17 
+
+
+  350 000000D0 4858            LDR              R0, =GPIO_PORTQ_DEN_R ;Carrega 
+                                                            o endereço do DEN
+  351 000000D2 F04F 010F       MOV              R1, #2_00001111 ;Ativa os pinos
+                                                             PQ3 ate PQ0 como I
+                                                            /O Digital
+  352 000000D6 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador da memória fun
+                                                            cionalidade digital
+                                                             
+  353 000000D8         
+  354 000000D8 4857            LDR              R0, =GPIO_PORTB_DEN_R ;Carrega 
+                                                            o endereço do DEN
+  355 000000DA F04F 0130       MOV              R1, #2_00110000 ;Ativa os pinos
+                                                             PB5 e PB4 como I/O
+                                                             Digital      
+  356 000000DE 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador da memória fun
+                                                            cionalidade digital
+                                                            
+  357 000000E0         
+  358 000000E0 4856            LDR              R0, =GPIO_PORTP_DEN_R ;Carrega 
+                                                            o endereço do DEN
+  359 000000E2 F04F 0120       MOV              R1, #2_00100000 ;Ativa o pino P
+                                                            P5 como I/O Digital
+                                                                  
+  360 000000E6 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador da memória fun
+                                                            cionalidade digital
+                                                            
+  361 000000E8         
+  362 000000E8 4855            LDR              R0, =GPIO_PORTJ_DEN_R ;Carrega 
+                                                            o endereço do DEN
+  363 000000EA F04F 0103       MOV              R1, #2_00000011 ;Ativa os pinos
+                                                             PJ0 e PJ1 como I/O
+                                                             Digital      
+  364 000000EE 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador da memória fun
+                                                            cionalidade digital
+                                                            
+  365 000000F0         
+  366 000000F0         
+  367 000000F0         ; 7. Para habilitar resistor de pull-up interno, setar P
+                       UR para 1
+  368 000000F0 4854            LDR              R0, =GPIO_PORTJ_PUR_R ;Carrega 
+                                                            o endereço do PUR p
+                                                            ara a porta J
+  369 000000F2 F04F 0103       MOV              R1, #2_11   ;Habilitar funciona
+                                                            lidade digital de r
+                                                            esistor de pull-up 
+                                                                               
+                                                                               
+                                                                          
+  370 000000F6 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador da memória do 
+                                                            resistor de pull-up
+                                                            
+  371 000000F8         
+  372 000000F8         ;Interrupção para o sw
+  373 000000F8         ; 8. Desabilitar a interrupção no registrador IM
+
+
+
+ARM Macro Assembler    Page 18 
+
+
+  374 000000F8 4853            LDR              R0, =GPIO_PORTJ_IM_R ;Carrega o
+                                                             endereço do IM par
+                                                            a a porta J
+  375 000000FA F04F 0100       MOV              R1, #2_00   ;Desabilitar as int
+                                                            errupções  
+  376 000000FE 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador
+  377 00000100         
+  378 00000100         ; 9. Configurar o tipo de interrupção por borda no regis
+                       trador IS
+  379 00000100 4852            LDR              R0, =GPIO_PORTJ_IS_R ;Carrega o
+                                                             endereço do IS par
+                                                            a a porta J
+  380 00000102 F04F 0100       MOV              R1, #2_00   ;Por Borda  
+  381 00000106 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador
+  382 00000108         
+  383 00000108         ; 10. Configurar  borda única no registrador IBE
+  384 00000108 4851            LDR              R0, =GPIO_PORTJ_IBE_R ;Carrega 
+                                                            o endereço do IBE p
+                                                            ara a porta J
+  385 0000010A F04F 0100       MOV              R1, #2_00   ;Borda Única  para 
+                                                            j0 e j1  
+  386 0000010E 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador
+  387 00000110         
+  388 00000110         ; 11. Configurar  borda de descida (botão pressionado) n
+                       o registrador IEV
+  389 00000110 4850            LDR              R0, =GPIO_PORTJ_IEV_R ;Carrega 
+                                                            o endereço do IEV p
+                                                            ara a porta J
+  390 00000112 F04F 0100       MOV              R1, #2_00   ;Borda de descida p
+                                                            ara j0 e j1  
+  391 00000116 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador
+  392 00000118         
+  393 00000118         ; 12:  realizando o ACK no registrador GPIOICR para ambo
+                       s os pinos.
+  394 00000118 484F            LDR              R0, =GPIO_PORTJ_ICR_R ;Carrega 
+                                                            o endereço do ICR p
+                                                            ara a porta J 
+  395 0000011A F04F 0103       MOV              R1, #2_11   ;Realizar o ACK par
+                                                            a os dois pinos
+  396 0000011E 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador
+  397 00000120         
+  398 00000120         ; 13. Habilitar a interrupção no registrador IM
+  399 00000120 4849            LDR              R0, =GPIO_PORTJ_IM_R ;Carrega o
+                                                             endereço do IM par
+                                                            a a porta J
+  400 00000122 F04F 0103       MOV              R1, #2_11   ;Habilitar as inter
+                                                            rupções  
+  401 00000126 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador
+  402 00000128         
+  403 00000128         ; 14. Habilitar a interrupção no NVIC A. fonte do Port J
+                        é a número 51
+  404 00000128 484C            LDR              R0, =NVIC_EN1_R ;Carrega o do N
+                                                            VIC para o grupo qu
+
+
+
+ARM Macro Assembler    Page 19 
+
+
+                                                            e tem o J entre 32 
+                                                            e 61
+  405 0000012A F04F 0101       MOV              R1, #1      ;O bit para habilit
+                                                            ar
+  406 0000012E EA4F 41C1       LSL              R1, #19     ;Desloca 19 bits pa
+                                                            ra a esquerda já qu
+                                                            e o J é a interrupç
+                                                            ão do bit 19 no EN1
+                                                            
+  407 00000132 6001            STR              R1, [R0]
+  408 00000134         
+  409 00000134         ; 15. Setar a prioridade no NVIC
+  410 00000134 484A            LDR              R0, =NVIC_PRI12_R ;Carrega o do
+                                                             NVIC para o grupo 
+                                                            que tem o J entre 4
+                                                            8 e 51
+  411 00000136 F04F 0105       MOV              R1, #5      ;Prioridade 5
+  412 0000013A EA4F 7141       LSL              R1, R1, #29 ;Desloca 29 bits pa
+                                                            ra a esquerda já qu
+                                                            e o J é o ultimo by
+                                                            te do PRI12
+  413 0000013E 6001            STR              R1, [R0]    ;Escreve no registr
+                                                            ador da memória
+  414 00000140         
+  415 00000140 4770            BX               LR          ;Retorno
+  416 00000142         
+  417 00000142         ; ------------------------------------------------------
+                       -------------------------
+  418 00000142         ; Função PortN_Output
+  419 00000142         ; Parâmetro de entrada: R0 --> se os BIT1 e BIT0 estão l
+                       igado ou desligado
+  420 00000142         ; Parâmetro de saída: Não tem
+  421 00000142         PortN_Output
+  422 00000142 4948            LDR              R1, =GPIO_PORTN_DATA_R ;Carrega
+                                                             o valor do offset 
+                                                            do data register
+  423 00000144 680A            LDR              R2, [R1]
+  424 00000146 F022 0203       BIC              R2, #2_11   ;Primeiro limpamos 
+                                                            os dois bits do lid
+                                                            o da porta R2 = R2 
+                                                            & 11111100
+  425 0000014A EA40 0002       ORR              R0, R0, R2  ;Fazer o OR do lido
+                                                             pela porta com o p
+                                                            arâmetro de entrada
+                                                            
+  426 0000014E 6008            STR              R0, [R1]    ;Escreve na porta N
+                                                             o barramento de da
+                                                            dos dos pinos [N5-N
+                                                            0]
+  427 00000150 4770            BX               LR          ;Retorno
+  428 00000152         
+  429 00000152         ; ------------------------------------------------------
+                       -------------------------
+  430 00000152         ; Função PortA_Output
+  431 00000152         ; Parâmetro de entrada: R0 --> BIT7 a BIT4 = bits mais s
+                       ignificativos do numero
+  432 00000152         ; Parâmetro de saída: Não tem
+  433 00000152         PortA_Output
+  434 00000152 4945            LDR              R1, =GPIO_PORTA_DATA_R ;Carrega
+
+
+
+ARM Macro Assembler    Page 20 
+
+
+                                                             o valor do offset 
+                                                            do data register
+  435 00000154 F000 02F0       AND              R2, R0, #2_11110000 ;Fazer o AN
+                                                            D da parâmetro de e
+                                                            ntrada com os bits 
+                                                            que queremos ler
+  436 00000158 600A            STR              R2, [R1]    ;Escreve na porta Q
+                                                             o barramento de da
+                                                            dos dos pinos [Q3-Q
+                                                            0]
+  437 0000015A 4770            BX               LR          ;Retorno
+  438 0000015C         
+  439 0000015C         ; ------------------------------------------------------
+                       -------------------------
+  440 0000015C         ; Função PortQ_Output
+  441 0000015C         ; Parâmetro de entrada: R0 --> BIT3 a BIT0 = bits menos 
+                       significativos do numero
+  442 0000015C         ; Parâmetro de saída: Não tem
+  443 0000015C         PortQ_Output
+  444 0000015C 4943            LDR              R1, =GPIO_PORTQ_DATA_R ;Carrega
+                                                             o valor do offset 
+                                                            do data register
+  445 0000015E F000 020F       AND              R2, R0, #2_00001111 ;Fazer o AN
+                                                            D da parâmetro de e
+                                                            ntrada com os bits 
+                                                            que queremos ler
+  446 00000162 600A            STR              R2, [R1]    ;Escreve na porta Q
+                                                             o barramento de da
+                                                            dos dos pinos [Q3-Q
+                                                            0]
+  447 00000164 4770            BX               LR          ;Retorno
+  448 00000166         
+  449 00000166         ; ------------------------------------------------------
+                       -------------------------
+  450 00000166         ; Função PortB_Output
+  451 00000166         ; Parâmetro de entrada: R0 --> se os BIT5 ou BIT4 estão 
+                       ligado ou desligado
+  452 00000166         ; Parâmetro de saída: Não tem
+  453 00000166         PortB_Output
+  454 00000166 4942            LDR              R1, =GPIO_PORTB_DATA_R ;Carrega
+                                                             o valor do offset 
+                                                            do data register
+  455 00000168 680A            LDR              R2, [R1]
+  456 0000016A F022 0230       BIC              R2, #2_00110000 ;Primeiro limpa
+                                                            mos os dois bits do
+                                                             lido da porta 
+  457 0000016E EA40 0002       ORR              R0, R0, R2  ;Fazer o OR do lido
+                                                             pela porta com o p
+                                                            arâmetro de entrada
+                                                            
+  458 00000172 6008            STR              R0, [R1]    ;Escreve na porta N
+                                                             o barramento de da
+                                                            dos dos pinos [N5-N
+                                                            0]
+  459 00000174 4770            BX               LR          ;Retorno
+  460 00000176         
+  461 00000176         ; ------------------------------------------------------
+                       -------------------------
+  462 00000176         ; Função PortP_Output
+
+
+
+ARM Macro Assembler    Page 21 
+
+
+  463 00000176         ; Parâmetro de entrada: R0 --> se o BIT5 estão ligado ou
+                        desligado
+  464 00000176         ; Parâmetro de saída: Não tem
+  465 00000176         PortP_Output
+  466 00000176 493F            LDR              R1, =GPIO_PORTP_DATA_R ;Carrega
+                                                             o valor do offset 
+                                                            do data register
+  467 00000178 680A            LDR              R2, [R1]
+  468 0000017A F022 0220       BIC              R2, #2_00100000 ;Primeiro limpa
+                                                            mos o bit do lido d
+                                                            a porta 
+  469 0000017E EA40 0002       ORR              R0, R0, R2  ;Fazer o OR do lido
+                                                             pela porta com o p
+                                                            arâmetro de entrada
+                                                            
+  470 00000182 6008            STR              R0, [R1]    ;Escreve na porta N
+                                                             o barramento de da
+                                                            dos dos pinos [N5-N
+                                                            0]
+  471 00000184 4770            BX               LR          ;Retorno
+  472 00000186         
+  473 00000186         ; ------------------------------------------------------
+                       -------------------------
+  474 00000186         ; Função ISR GPIOPortM_Handler (Tratamento da interrupçã
+                       o)
+  475 00000186         GPIOPortJ_Handler
+  476 00000186 4A3C            LDR              R2, =GPIO_PORTJ_RIS_R
+  477 00000188 6813            LDR              R3, [R2]
+  478 0000018A 4933            LDR              R1, =GPIO_PORTJ_ICR_R
+  479 0000018C F04F 0003       MOV              R0, #2_11
+  480 00000190 6008            STR              R0, [R1]
+  481 00000192         
+  482 00000192 2B01            CMP              R3,#2_01
+  483 00000194 BF0C            ITE              EQ
+  484 00000196 F10B 0B01       ADDEQ            R11,R11,#1
+  485 0000019A F1AB 0B01       SUBNE            R11,R11,#1
+  486 0000019E         
+  487 0000019E F04F 0001       LDR              R0,=1       ;Seta R0 como param
+                                                            etro de entrada de 
+                                                            função para esperar
+                                                             1 ms
+  488 000001A2 B500            PUSH             {LR}
+  489 000001A4 F7FF FFFE       BL               SysTick_Wait1ms ;Chama a função
+                                                             de espera
+  490 000001A8 F85D EB04       POP              {LR}
+  491 000001AC         
+  492 000001AC F1BB 0F32       CMP              R11,#50
+  493 000001B0 BF28            IT               HS
+  494 000001B2 F04F 0B32       LDRHS            R11,=50
+  495 000001B6         
+  496 000001B6 F1BB 0F05       CMP              R11,#5
+  497 000001BA BF98            IT               LS
+  498 000001BC F04F 0B05       LDRLS            R11,=5
+  499 000001C0         
+  500 000001C0 4770            BX               LR
+  501 000001C2         
+  502 000001C2         
+  503 000001C2         
+  504 000001C2 00 00           ALIGN                        ; garante que o fim
+
+
+
+ARM Macro Assembler    Page 22 
+
+
+                                                             da seção está alin
+                                                            hada 
+  505 000001C4                 END                          ; fim do arquivo
+              400FE608 
+              400FEA08 
+              40060528 
+              40064528 
+              40058528 
+              40066528 
+              40059528 
+              40065528 
+              4006052C 
+              4006452C 
+              4005852C 
+              4006652C 
+              4005952C 
+              4006552C 
+              40064400 
+              40058400 
+              40066400 
+              40059400 
+              40065400 
+              40060400 
+              40064420 
+              40060420 
+              40058420 
+              40066420 
+              40059420 
+              40065420 
+              4006451C 
+              4005851C 
+              4006651C 
+              4005951C 
+              4006551C 
+              4006051C 
+              40060510 
+              40060410 
+              40060404 
+              40060408 
+              4006040C 
+              4006041C 
+              E000E104 
+              E000E430 
+              400643FC 
+              400583FC 
+              400663FC 
+              400593FC 
+              400653FC 
+              40060414 
+Command Line: --debug --xref --diag_suppress=9931,A1950W --cpu=Cortex-M4.fp.sp 
+--depend=.\objects\gpio.d -o.\objects\gpio.o -IC:\Users\aguia\AppData\Local\Arm
+\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129 --predefine="__EVAL SETA 1" -
+-predefine="__UVISION_VERSION SETA 543" --predefine="TM4C1294NCPDT SETA 1" --li
+st=.\listings\gpio.lst gpio.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 230 in file gpio.s
+   Uses
+      None
+Comment: .text unused
+EsperaGPIO 0000001E
+
+Symbol: EsperaGPIO
+   Definitions
+      At line 260 in file gpio.s
+   Uses
+      At line 268 in file gpio.s
+Comment: EsperaGPIO used once
+GPIOPortJ_Handler 00000186
+
+Symbol: GPIOPortJ_Handler
+   Definitions
+      At line 475 in file gpio.s
+   Uses
+      At line 239 in file gpio.s
+Comment: GPIOPortJ_Handler used once
+GPIO_Init 00000000
+
+Symbol: GPIO_Init
+   Definitions
+      At line 248 in file gpio.s
+   Uses
+      At line 233 in file gpio.s
+Comment: GPIO_Init used once
+PortA_Output 00000152
+
+Symbol: PortA_Output
+   Definitions
+      At line 433 in file gpio.s
+   Uses
+      At line 235 in file gpio.s
+Comment: PortA_Output used once
+PortB_Output 00000166
+
+Symbol: PortB_Output
+   Definitions
+      At line 453 in file gpio.s
+   Uses
+      At line 237 in file gpio.s
+Comment: PortB_Output used once
+PortN_Output 00000142
+
+Symbol: PortN_Output
+   Definitions
+      At line 421 in file gpio.s
+   Uses
+      At line 234 in file gpio.s
+Comment: PortN_Output used once
+PortP_Output 00000176
+
+Symbol: PortP_Output
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+   Definitions
+      At line 465 in file gpio.s
+   Uses
+      At line 238 in file gpio.s
+Comment: PortP_Output used once
+PortQ_Output 0000015C
+
+Symbol: PortQ_Output
+   Definitions
+      At line 443 in file gpio.s
+   Uses
+      At line 236 in file gpio.s
+Comment: PortQ_Output used once
+9 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTA 00000001
+
+Symbol: GPIO_PORTA
+   Definitions
+      At line 122 in file gpio.s
+   Uses
+      At line 253 in file gpio.s
+      At line 263 in file gpio.s
+
+GPIO_PORTA_ADCCTL_R 40058530
+
+Symbol: GPIO_PORTA_ADCCTL_R
+   Definitions
+      At line 113 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_ADCCTL_R unused
+GPIO_PORTA_AFSEL_R 40058420
+
+Symbol: GPIO_PORTA_AFSEL_R
+   Definitions
+      At line 100 in file gpio.s
+   Uses
+      At line 332 in file gpio.s
+Comment: GPIO_PORTA_AFSEL_R used once
+GPIO_PORTA_AMSEL_R 40058528
+
+Symbol: GPIO_PORTA_AMSEL_R
+   Definitions
+      At line 111 in file gpio.s
+   Uses
+      At line 276 in file gpio.s
+Comment: GPIO_PORTA_AMSEL_R used once
+GPIO_PORTA_CR_R 40058524
+
+Symbol: GPIO_PORTA_CR_R
+   Definitions
+      At line 110 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_CR_R unused
+GPIO_PORTA_DATA_BITS_R 40058000
+
+Symbol: GPIO_PORTA_DATA_BITS_R
+   Definitions
+      At line 90 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_DATA_BITS_R unused
+GPIO_PORTA_DATA_R 400583FC
+
+Symbol: GPIO_PORTA_DATA_R
+   Definitions
+      At line 91 in file gpio.s
+   Uses
+      At line 434 in file gpio.s
+Comment: GPIO_PORTA_DATA_R used once
+GPIO_PORTA_DEN_R 4005851C
+
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+Symbol: GPIO_PORTA_DEN_R
+   Definitions
+      At line 108 in file gpio.s
+   Uses
+      At line 346 in file gpio.s
+Comment: GPIO_PORTA_DEN_R used once
+GPIO_PORTA_DIR_R 40058400
+
+Symbol: GPIO_PORTA_DIR_R
+   Definitions
+      At line 92 in file gpio.s
+   Uses
+      At line 305 in file gpio.s
+Comment: GPIO_PORTA_DIR_R used once
+GPIO_PORTA_DMACTL_R 40058534
+
+Symbol: GPIO_PORTA_DMACTL_R
+   Definitions
+      At line 114 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_DMACTL_R unused
+GPIO_PORTA_DR12R_R 4005853C
+
+Symbol: GPIO_PORTA_DR12R_R
+   Definitions
+      At line 116 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_DR12R_R unused
+GPIO_PORTA_DR2R_R 40058500
+
+Symbol: GPIO_PORTA_DR2R_R
+   Definitions
+      At line 101 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_DR2R_R unused
+GPIO_PORTA_DR4R_R 40058504
+
+Symbol: GPIO_PORTA_DR4R_R
+   Definitions
+      At line 102 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_DR4R_R unused
+GPIO_PORTA_DR8R_R 40058508
+
+Symbol: GPIO_PORTA_DR8R_R
+   Definitions
+      At line 103 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_DR8R_R unused
+GPIO_PORTA_IBE_R 40058408
+
+Symbol: GPIO_PORTA_IBE_R
+   Definitions
+      At line 94 in file gpio.s
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Absolute symbols
+
+   Uses
+      None
+Comment: GPIO_PORTA_IBE_R unused
+GPIO_PORTA_ICR_R 4005841C
+
+Symbol: GPIO_PORTA_ICR_R
+   Definitions
+      At line 99 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_ICR_R unused
+GPIO_PORTA_IEV_R 4005840C
+
+Symbol: GPIO_PORTA_IEV_R
+   Definitions
+      At line 95 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_IEV_R unused
+GPIO_PORTA_IM_R 40058410
+
+Symbol: GPIO_PORTA_IM_R
+   Definitions
+      At line 96 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_IM_R unused
+GPIO_PORTA_IS_R 40058404
+
+Symbol: GPIO_PORTA_IS_R
+   Definitions
+      At line 93 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_IS_R unused
+GPIO_PORTA_LOCK_R 40058520
+
+Symbol: GPIO_PORTA_LOCK_R
+   Definitions
+      At line 109 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_LOCK_R unused
+GPIO_PORTA_MIS_R 40058418
+
+Symbol: GPIO_PORTA_MIS_R
+   Definitions
+      At line 98 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_MIS_R unused
+GPIO_PORTA_ODR_R 4005850C
+
+Symbol: GPIO_PORTA_ODR_R
+   Definitions
+      At line 104 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_ODR_R unused
+
+
+
+ARM Macro Assembler    Page 4 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTA_PCTL_R 4005852C
+
+Symbol: GPIO_PORTA_PCTL_R
+   Definitions
+      At line 112 in file gpio.s
+   Uses
+      At line 291 in file gpio.s
+Comment: GPIO_PORTA_PCTL_R used once
+GPIO_PORTA_PC_R 40058FC4
+
+Symbol: GPIO_PORTA_PC_R
+   Definitions
+      At line 121 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_PC_R unused
+GPIO_PORTA_PDR_R 40058514
+
+Symbol: GPIO_PORTA_PDR_R
+   Definitions
+      At line 106 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_PDR_R unused
+GPIO_PORTA_PP_R 40058FC0
+
+Symbol: GPIO_PORTA_PP_R
+   Definitions
+      At line 120 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_PP_R unused
+GPIO_PORTA_PUR_R 40058510
+
+Symbol: GPIO_PORTA_PUR_R
+   Definitions
+      At line 105 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_PUR_R unused
+GPIO_PORTA_RIS_R 40058414
+
+Symbol: GPIO_PORTA_RIS_R
+   Definitions
+      At line 97 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_RIS_R unused
+GPIO_PORTA_SI_R 40058538
+
+Symbol: GPIO_PORTA_SI_R
+   Definitions
+      At line 115 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_SI_R unused
+GPIO_PORTA_SLR_R 40058518
+
+Symbol: GPIO_PORTA_SLR_R
+
+
+
+ARM Macro Assembler    Page 5 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 107 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_SLR_R unused
+GPIO_PORTA_WAKELVL_R 40058544
+
+Symbol: GPIO_PORTA_WAKELVL_R
+   Definitions
+      At line 118 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_WAKELVL_R unused
+GPIO_PORTA_WAKEPEN_R 40058540
+
+Symbol: GPIO_PORTA_WAKEPEN_R
+   Definitions
+      At line 117 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_WAKEPEN_R unused
+GPIO_PORTA_WAKESTAT_R 40058548
+
+Symbol: GPIO_PORTA_WAKESTAT_R
+   Definitions
+      At line 119 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTA_WAKESTAT_R unused
+GPIO_PORTB 00000002
+
+Symbol: GPIO_PORTB
+   Definitions
+      At line 190 in file gpio.s
+   Uses
+      At line 255 in file gpio.s
+      At line 265 in file gpio.s
+
+GPIO_PORTB_ADCCTL_R 40059530
+
+Symbol: GPIO_PORTB_ADCCTL_R
+   Definitions
+      At line 181 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_ADCCTL_R unused
+GPIO_PORTB_AFSEL_R 40059420
+
+Symbol: GPIO_PORTB_AFSEL_R
+   Definitions
+      At line 168 in file gpio.s
+   Uses
+      At line 336 in file gpio.s
+Comment: GPIO_PORTB_AFSEL_R used once
+GPIO_PORTB_AMSEL_R 40059528
+
+Symbol: GPIO_PORTB_AMSEL_R
+   Definitions
+      At line 179 in file gpio.s
+
+
+
+ARM Macro Assembler    Page 6 Alphabetic symbol ordering
+Absolute symbols
+
+   Uses
+      At line 280 in file gpio.s
+Comment: GPIO_PORTB_AMSEL_R used once
+GPIO_PORTB_CR_R 40059524
+
+Symbol: GPIO_PORTB_CR_R
+   Definitions
+      At line 178 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_CR_R unused
+GPIO_PORTB_DATA_BITS_R 40059000
+
+Symbol: GPIO_PORTB_DATA_BITS_R
+   Definitions
+      At line 158 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_DATA_BITS_R unused
+GPIO_PORTB_DATA_R 400593FC
+
+Symbol: GPIO_PORTB_DATA_R
+   Definitions
+      At line 159 in file gpio.s
+   Uses
+      At line 454 in file gpio.s
+Comment: GPIO_PORTB_DATA_R used once
+GPIO_PORTB_DEN_R 4005951C
+
+Symbol: GPIO_PORTB_DEN_R
+   Definitions
+      At line 176 in file gpio.s
+   Uses
+      At line 354 in file gpio.s
+Comment: GPIO_PORTB_DEN_R used once
+GPIO_PORTB_DIR_R 40059400
+
+Symbol: GPIO_PORTB_DIR_R
+   Definitions
+      At line 160 in file gpio.s
+   Uses
+      At line 313 in file gpio.s
+Comment: GPIO_PORTB_DIR_R used once
+GPIO_PORTB_DMACTL_R 40059534
+
+Symbol: GPIO_PORTB_DMACTL_R
+   Definitions
+      At line 182 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_DMACTL_R unused
+GPIO_PORTB_DR12R_R 4005953C
+
+Symbol: GPIO_PORTB_DR12R_R
+   Definitions
+      At line 184 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_DR12R_R unused
+
+
+
+ARM Macro Assembler    Page 7 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_DR2R_R 40059500
+
+Symbol: GPIO_PORTB_DR2R_R
+   Definitions
+      At line 169 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_DR2R_R unused
+GPIO_PORTB_DR4R_R 40059504
+
+Symbol: GPIO_PORTB_DR4R_R
+   Definitions
+      At line 170 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_DR4R_R unused
+GPIO_PORTB_DR8R_R 40059508
+
+Symbol: GPIO_PORTB_DR8R_R
+   Definitions
+      At line 171 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_DR8R_R unused
+GPIO_PORTB_IBE_R 40059408
+
+Symbol: GPIO_PORTB_IBE_R
+   Definitions
+      At line 162 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_IBE_R unused
+GPIO_PORTB_ICR_R 4005941C
+
+Symbol: GPIO_PORTB_ICR_R
+   Definitions
+      At line 167 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_ICR_R unused
+GPIO_PORTB_IEV_R 4005940C
+
+Symbol: GPIO_PORTB_IEV_R
+   Definitions
+      At line 163 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_IEV_R unused
+GPIO_PORTB_IM_R 40059410
+
+Symbol: GPIO_PORTB_IM_R
+   Definitions
+      At line 164 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_IM_R unused
+GPIO_PORTB_IS_R 40059404
+
+Symbol: GPIO_PORTB_IS_R
+
+
+
+ARM Macro Assembler    Page 8 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 161 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_IS_R unused
+GPIO_PORTB_LOCK_R 40059520
+
+Symbol: GPIO_PORTB_LOCK_R
+   Definitions
+      At line 177 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_LOCK_R unused
+GPIO_PORTB_MIS_R 40059418
+
+Symbol: GPIO_PORTB_MIS_R
+   Definitions
+      At line 166 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_MIS_R unused
+GPIO_PORTB_ODR_R 4005950C
+
+Symbol: GPIO_PORTB_ODR_R
+   Definitions
+      At line 172 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_ODR_R unused
+GPIO_PORTB_PCTL_R 4005952C
+
+Symbol: GPIO_PORTB_PCTL_R
+   Definitions
+      At line 180 in file gpio.s
+   Uses
+      At line 295 in file gpio.s
+Comment: GPIO_PORTB_PCTL_R used once
+GPIO_PORTB_PC_R 40059FC4
+
+Symbol: GPIO_PORTB_PC_R
+   Definitions
+      At line 189 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_PC_R unused
+GPIO_PORTB_PDR_R 40059514
+
+Symbol: GPIO_PORTB_PDR_R
+   Definitions
+      At line 174 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_PDR_R unused
+GPIO_PORTB_PP_R 40059FC0
+
+Symbol: GPIO_PORTB_PP_R
+   Definitions
+      At line 188 in file gpio.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 9 Alphabetic symbol ordering
+Absolute symbols
+
+      None
+Comment: GPIO_PORTB_PP_R unused
+GPIO_PORTB_PUR_R 40059510
+
+Symbol: GPIO_PORTB_PUR_R
+   Definitions
+      At line 173 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_PUR_R unused
+GPIO_PORTB_RIS_R 40059414
+
+Symbol: GPIO_PORTB_RIS_R
+   Definitions
+      At line 165 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_RIS_R unused
+GPIO_PORTB_SI_R 40059538
+
+Symbol: GPIO_PORTB_SI_R
+   Definitions
+      At line 183 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_SI_R unused
+GPIO_PORTB_SLR_R 40059518
+
+Symbol: GPIO_PORTB_SLR_R
+   Definitions
+      At line 175 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_SLR_R unused
+GPIO_PORTB_WAKELVL_R 40059544
+
+Symbol: GPIO_PORTB_WAKELVL_R
+   Definitions
+      At line 186 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_WAKELVL_R unused
+GPIO_PORTB_WAKEPEN_R 40059540
+
+Symbol: GPIO_PORTB_WAKEPEN_R
+   Definitions
+      At line 185 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_WAKEPEN_R unused
+GPIO_PORTB_WAKESTAT_R 40059548
+
+Symbol: GPIO_PORTB_WAKESTAT_R
+   Definitions
+      At line 187 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTB_WAKESTAT_R unused
+GPIO_PORTJ 00000100
+
+
+
+ARM Macro Assembler    Page 10 Alphabetic symbol ordering
+Absolute symbols
+
+
+Symbol: GPIO_PORTJ
+   Definitions
+      At line 54 in file gpio.s
+   Uses
+      At line 252 in file gpio.s
+      At line 262 in file gpio.s
+
+GPIO_PORTJ_ADCCTL_R 40060530
+
+Symbol: GPIO_PORTJ_ADCCTL_R
+   Definitions
+      At line 45 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_ADCCTL_R unused
+GPIO_PORTJ_AFSEL_R 40060420
+
+Symbol: GPIO_PORTJ_AFSEL_R
+   Definitions
+      At line 32 in file gpio.s
+   Uses
+      At line 330 in file gpio.s
+Comment: GPIO_PORTJ_AFSEL_R used once
+GPIO_PORTJ_AMSEL_R 40060528
+
+Symbol: GPIO_PORTJ_AMSEL_R
+   Definitions
+      At line 43 in file gpio.s
+   Uses
+      At line 272 in file gpio.s
+Comment: GPIO_PORTJ_AMSEL_R used once
+GPIO_PORTJ_CR_R 40060524
+
+Symbol: GPIO_PORTJ_CR_R
+   Definitions
+      At line 42 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_CR_R unused
+GPIO_PORTJ_DATA_BITS_R 40060000
+
+Symbol: GPIO_PORTJ_DATA_BITS_R
+   Definitions
+      At line 22 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_DATA_BITS_R unused
+GPIO_PORTJ_DATA_R 400603FC
+
+Symbol: GPIO_PORTJ_DATA_R
+   Definitions
+      At line 23 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_DATA_R unused
+GPIO_PORTJ_DEN_R 4006051C
+
+Symbol: GPIO_PORTJ_DEN_R
+
+
+
+ARM Macro Assembler    Page 11 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 40 in file gpio.s
+   Uses
+      At line 362 in file gpio.s
+Comment: GPIO_PORTJ_DEN_R used once
+GPIO_PORTJ_DIR_R 40060400
+
+Symbol: GPIO_PORTJ_DIR_R
+   Definitions
+      At line 24 in file gpio.s
+   Uses
+      At line 321 in file gpio.s
+Comment: GPIO_PORTJ_DIR_R used once
+GPIO_PORTJ_DMACTL_R 40060534
+
+Symbol: GPIO_PORTJ_DMACTL_R
+   Definitions
+      At line 46 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_DMACTL_R unused
+GPIO_PORTJ_DR12R_R 4006053C
+
+Symbol: GPIO_PORTJ_DR12R_R
+   Definitions
+      At line 48 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_DR12R_R unused
+GPIO_PORTJ_DR2R_R 40060500
+
+Symbol: GPIO_PORTJ_DR2R_R
+   Definitions
+      At line 33 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_DR2R_R unused
+GPIO_PORTJ_DR4R_R 40060504
+
+Symbol: GPIO_PORTJ_DR4R_R
+   Definitions
+      At line 34 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_DR4R_R unused
+GPIO_PORTJ_DR8R_R 40060508
+
+Symbol: GPIO_PORTJ_DR8R_R
+   Definitions
+      At line 35 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_DR8R_R unused
+GPIO_PORTJ_IBE_R 40060408
+
+Symbol: GPIO_PORTJ_IBE_R
+   Definitions
+      At line 26 in file gpio.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 12 Alphabetic symbol ordering
+Absolute symbols
+
+      At line 384 in file gpio.s
+Comment: GPIO_PORTJ_IBE_R used once
+GPIO_PORTJ_ICR_R 4006041C
+
+Symbol: GPIO_PORTJ_ICR_R
+   Definitions
+      At line 31 in file gpio.s
+   Uses
+      At line 394 in file gpio.s
+      At line 478 in file gpio.s
+
+GPIO_PORTJ_IEV_R 4006040C
+
+Symbol: GPIO_PORTJ_IEV_R
+   Definitions
+      At line 27 in file gpio.s
+   Uses
+      At line 389 in file gpio.s
+Comment: GPIO_PORTJ_IEV_R used once
+GPIO_PORTJ_IM_R 40060410
+
+Symbol: GPIO_PORTJ_IM_R
+   Definitions
+      At line 28 in file gpio.s
+   Uses
+      At line 374 in file gpio.s
+      At line 399 in file gpio.s
+
+GPIO_PORTJ_IS_R 40060404
+
+Symbol: GPIO_PORTJ_IS_R
+   Definitions
+      At line 25 in file gpio.s
+   Uses
+      At line 379 in file gpio.s
+Comment: GPIO_PORTJ_IS_R used once
+GPIO_PORTJ_LOCK_R 40060520
+
+Symbol: GPIO_PORTJ_LOCK_R
+   Definitions
+      At line 41 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_LOCK_R unused
+GPIO_PORTJ_MIS_R 40060418
+
+Symbol: GPIO_PORTJ_MIS_R
+   Definitions
+      At line 30 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_MIS_R unused
+GPIO_PORTJ_ODR_R 4006050C
+
+Symbol: GPIO_PORTJ_ODR_R
+   Definitions
+      At line 36 in file gpio.s
+   Uses
+      None
+
+
+
+ARM Macro Assembler    Page 13 Alphabetic symbol ordering
+Absolute symbols
+
+Comment: GPIO_PORTJ_ODR_R unused
+GPIO_PORTJ_PCTL_R 4006052C
+
+Symbol: GPIO_PORTJ_PCTL_R
+   Definitions
+      At line 44 in file gpio.s
+   Uses
+      At line 287 in file gpio.s
+Comment: GPIO_PORTJ_PCTL_R used once
+GPIO_PORTJ_PC_R 40060FC4
+
+Symbol: GPIO_PORTJ_PC_R
+   Definitions
+      At line 53 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_PC_R unused
+GPIO_PORTJ_PDR_R 40060514
+
+Symbol: GPIO_PORTJ_PDR_R
+   Definitions
+      At line 38 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_PDR_R unused
+GPIO_PORTJ_PP_R 40060FC0
+
+Symbol: GPIO_PORTJ_PP_R
+   Definitions
+      At line 52 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_PP_R unused
+GPIO_PORTJ_PUR_R 40060510
+
+Symbol: GPIO_PORTJ_PUR_R
+   Definitions
+      At line 37 in file gpio.s
+   Uses
+      At line 368 in file gpio.s
+Comment: GPIO_PORTJ_PUR_R used once
+GPIO_PORTJ_RIS_R 40060414
+
+Symbol: GPIO_PORTJ_RIS_R
+   Definitions
+      At line 29 in file gpio.s
+   Uses
+      At line 476 in file gpio.s
+Comment: GPIO_PORTJ_RIS_R used once
+GPIO_PORTJ_SI_R 40060538
+
+Symbol: GPIO_PORTJ_SI_R
+   Definitions
+      At line 47 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_SI_R unused
+GPIO_PORTJ_SLR_R 40060518
+
+
+
+
+ARM Macro Assembler    Page 14 Alphabetic symbol ordering
+Absolute symbols
+
+Symbol: GPIO_PORTJ_SLR_R
+   Definitions
+      At line 39 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_SLR_R unused
+GPIO_PORTJ_WAKELVL_R 40060544
+
+Symbol: GPIO_PORTJ_WAKELVL_R
+   Definitions
+      At line 50 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_WAKELVL_R unused
+GPIO_PORTJ_WAKEPEN_R 40060540
+
+Symbol: GPIO_PORTJ_WAKEPEN_R
+   Definitions
+      At line 49 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_WAKEPEN_R unused
+GPIO_PORTJ_WAKESTAT_R 40060548
+
+Symbol: GPIO_PORTJ_WAKESTAT_R
+   Definitions
+      At line 51 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTJ_WAKESTAT_R unused
+GPIO_PORTN 00001000
+
+Symbol: GPIO_PORTN
+   Definitions
+      At line 88 in file gpio.s
+   Uses
+      At line 251 in file gpio.s
+      At line 261 in file gpio.s
+
+GPIO_PORTN_ADCCTL_R 40064530
+
+Symbol: GPIO_PORTN_ADCCTL_R
+   Definitions
+      At line 79 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_ADCCTL_R unused
+GPIO_PORTN_AFSEL_R 40064420
+
+Symbol: GPIO_PORTN_AFSEL_R
+   Definitions
+      At line 66 in file gpio.s
+   Uses
+      At line 328 in file gpio.s
+Comment: GPIO_PORTN_AFSEL_R used once
+GPIO_PORTN_AMSEL_R 40064528
+
+Symbol: GPIO_PORTN_AMSEL_R
+   Definitions
+
+
+
+ARM Macro Assembler    Page 15 Alphabetic symbol ordering
+Absolute symbols
+
+      At line 77 in file gpio.s
+   Uses
+      At line 274 in file gpio.s
+Comment: GPIO_PORTN_AMSEL_R used once
+GPIO_PORTN_CR_R 40064524
+
+Symbol: GPIO_PORTN_CR_R
+   Definitions
+      At line 76 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_CR_R unused
+GPIO_PORTN_DATA_BITS_R 40064000
+
+Symbol: GPIO_PORTN_DATA_BITS_R
+   Definitions
+      At line 56 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_DATA_BITS_R unused
+GPIO_PORTN_DATA_R 400643FC
+
+Symbol: GPIO_PORTN_DATA_R
+   Definitions
+      At line 57 in file gpio.s
+   Uses
+      At line 422 in file gpio.s
+Comment: GPIO_PORTN_DATA_R used once
+GPIO_PORTN_DEN_R 4006451C
+
+Symbol: GPIO_PORTN_DEN_R
+   Definitions
+      At line 74 in file gpio.s
+   Uses
+      At line 342 in file gpio.s
+Comment: GPIO_PORTN_DEN_R used once
+GPIO_PORTN_DIR_R 40064400
+
+Symbol: GPIO_PORTN_DIR_R
+   Definitions
+      At line 58 in file gpio.s
+   Uses
+      At line 301 in file gpio.s
+Comment: GPIO_PORTN_DIR_R used once
+GPIO_PORTN_DMACTL_R 40064534
+
+Symbol: GPIO_PORTN_DMACTL_R
+   Definitions
+      At line 80 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_DMACTL_R unused
+GPIO_PORTN_DR12R_R 4006453C
+
+Symbol: GPIO_PORTN_DR12R_R
+   Definitions
+      At line 82 in file gpio.s
+   Uses
+      None
+
+
+
+ARM Macro Assembler    Page 16 Alphabetic symbol ordering
+Absolute symbols
+
+Comment: GPIO_PORTN_DR12R_R unused
+GPIO_PORTN_DR2R_R 40064500
+
+Symbol: GPIO_PORTN_DR2R_R
+   Definitions
+      At line 67 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_DR2R_R unused
+GPIO_PORTN_DR4R_R 40064504
+
+Symbol: GPIO_PORTN_DR4R_R
+   Definitions
+      At line 68 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_DR4R_R unused
+GPIO_PORTN_DR8R_R 40064508
+
+Symbol: GPIO_PORTN_DR8R_R
+   Definitions
+      At line 69 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_DR8R_R unused
+GPIO_PORTN_IBE_R 40064408
+
+Symbol: GPIO_PORTN_IBE_R
+   Definitions
+      At line 60 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_IBE_R unused
+GPIO_PORTN_ICR_R 4006441C
+
+Symbol: GPIO_PORTN_ICR_R
+   Definitions
+      At line 65 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_ICR_R unused
+GPIO_PORTN_IEV_R 4006440C
+
+Symbol: GPIO_PORTN_IEV_R
+   Definitions
+      At line 61 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_IEV_R unused
+GPIO_PORTN_IM_R 40064410
+
+Symbol: GPIO_PORTN_IM_R
+   Definitions
+      At line 62 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_IM_R unused
+GPIO_PORTN_IS_R 40064404
+
+
+
+
+ARM Macro Assembler    Page 17 Alphabetic symbol ordering
+Absolute symbols
+
+Symbol: GPIO_PORTN_IS_R
+   Definitions
+      At line 59 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_IS_R unused
+GPIO_PORTN_LOCK_R 40064520
+
+Symbol: GPIO_PORTN_LOCK_R
+   Definitions
+      At line 75 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_LOCK_R unused
+GPIO_PORTN_MIS_R 40064418
+
+Symbol: GPIO_PORTN_MIS_R
+   Definitions
+      At line 64 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_MIS_R unused
+GPIO_PORTN_ODR_R 4006450C
+
+Symbol: GPIO_PORTN_ODR_R
+   Definitions
+      At line 70 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_ODR_R unused
+GPIO_PORTN_PCTL_R 4006452C
+
+Symbol: GPIO_PORTN_PCTL_R
+   Definitions
+      At line 78 in file gpio.s
+   Uses
+      At line 289 in file gpio.s
+Comment: GPIO_PORTN_PCTL_R used once
+GPIO_PORTN_PC_R 40064FC4
+
+Symbol: GPIO_PORTN_PC_R
+   Definitions
+      At line 87 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_PC_R unused
+GPIO_PORTN_PDR_R 40064514
+
+Symbol: GPIO_PORTN_PDR_R
+   Definitions
+      At line 72 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_PDR_R unused
+GPIO_PORTN_PP_R 40064FC0
+
+Symbol: GPIO_PORTN_PP_R
+   Definitions
+      At line 86 in file gpio.s
+
+
+
+ARM Macro Assembler    Page 18 Alphabetic symbol ordering
+Absolute symbols
+
+   Uses
+      None
+Comment: GPIO_PORTN_PP_R unused
+GPIO_PORTN_PUR_R 40064510
+
+Symbol: GPIO_PORTN_PUR_R
+   Definitions
+      At line 71 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_PUR_R unused
+GPIO_PORTN_RIS_R 40064414
+
+Symbol: GPIO_PORTN_RIS_R
+   Definitions
+      At line 63 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_RIS_R unused
+GPIO_PORTN_SI_R 40064538
+
+Symbol: GPIO_PORTN_SI_R
+   Definitions
+      At line 81 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_SI_R unused
+GPIO_PORTN_SLR_R 40064518
+
+Symbol: GPIO_PORTN_SLR_R
+   Definitions
+      At line 73 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_SLR_R unused
+GPIO_PORTN_WAKELVL_R 40064544
+
+Symbol: GPIO_PORTN_WAKELVL_R
+   Definitions
+      At line 84 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_WAKELVL_R unused
+GPIO_PORTN_WAKEPEN_R 40064540
+
+Symbol: GPIO_PORTN_WAKEPEN_R
+   Definitions
+      At line 83 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_WAKEPEN_R unused
+GPIO_PORTN_WAKESTAT_R 40064548
+
+Symbol: GPIO_PORTN_WAKESTAT_R
+   Definitions
+      At line 85 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTN_WAKESTAT_R unused
+
+
+
+ARM Macro Assembler    Page 19 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTP 00002000
+
+Symbol: GPIO_PORTP
+   Definitions
+      At line 224 in file gpio.s
+   Uses
+      At line 256 in file gpio.s
+      At line 266 in file gpio.s
+
+GPIO_PORTP_ADCCTL_R 40065530
+
+Symbol: GPIO_PORTP_ADCCTL_R
+   Definitions
+      At line 215 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_ADCCTL_R unused
+GPIO_PORTP_AFSEL_R 40065420
+
+Symbol: GPIO_PORTP_AFSEL_R
+   Definitions
+      At line 202 in file gpio.s
+   Uses
+      At line 338 in file gpio.s
+Comment: GPIO_PORTP_AFSEL_R used once
+GPIO_PORTP_AMSEL_R 40065528
+
+Symbol: GPIO_PORTP_AMSEL_R
+   Definitions
+      At line 213 in file gpio.s
+   Uses
+      At line 282 in file gpio.s
+Comment: GPIO_PORTP_AMSEL_R used once
+GPIO_PORTP_CR_R 40065524
+
+Symbol: GPIO_PORTP_CR_R
+   Definitions
+      At line 212 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_CR_R unused
+GPIO_PORTP_DATA_BITS_R 40065000
+
+Symbol: GPIO_PORTP_DATA_BITS_R
+   Definitions
+      At line 192 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_DATA_BITS_R unused
+GPIO_PORTP_DATA_R 400653FC
+
+Symbol: GPIO_PORTP_DATA_R
+   Definitions
+      At line 193 in file gpio.s
+   Uses
+      At line 466 in file gpio.s
+Comment: GPIO_PORTP_DATA_R used once
+GPIO_PORTP_DEN_R 4006551C
+
+
+
+
+ARM Macro Assembler    Page 20 Alphabetic symbol ordering
+Absolute symbols
+
+Symbol: GPIO_PORTP_DEN_R
+   Definitions
+      At line 210 in file gpio.s
+   Uses
+      At line 358 in file gpio.s
+Comment: GPIO_PORTP_DEN_R used once
+GPIO_PORTP_DIR_R 40065400
+
+Symbol: GPIO_PORTP_DIR_R
+   Definitions
+      At line 194 in file gpio.s
+   Uses
+      At line 317 in file gpio.s
+Comment: GPIO_PORTP_DIR_R used once
+GPIO_PORTP_DMACTL_R 40065534
+
+Symbol: GPIO_PORTP_DMACTL_R
+   Definitions
+      At line 216 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_DMACTL_R unused
+GPIO_PORTP_DR12R_R 4006553C
+
+Symbol: GPIO_PORTP_DR12R_R
+   Definitions
+      At line 218 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_DR12R_R unused
+GPIO_PORTP_DR2R_R 40065500
+
+Symbol: GPIO_PORTP_DR2R_R
+   Definitions
+      At line 203 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_DR2R_R unused
+GPIO_PORTP_DR4R_R 40065504
+
+Symbol: GPIO_PORTP_DR4R_R
+   Definitions
+      At line 204 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_DR4R_R unused
+GPIO_PORTP_DR8R_R 40065508
+
+Symbol: GPIO_PORTP_DR8R_R
+   Definitions
+      At line 205 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_DR8R_R unused
+GPIO_PORTP_IBE_R 40065408
+
+Symbol: GPIO_PORTP_IBE_R
+   Definitions
+      At line 196 in file gpio.s
+
+
+
+ARM Macro Assembler    Page 21 Alphabetic symbol ordering
+Absolute symbols
+
+   Uses
+      None
+Comment: GPIO_PORTP_IBE_R unused
+GPIO_PORTP_ICR_R 4006541C
+
+Symbol: GPIO_PORTP_ICR_R
+   Definitions
+      At line 201 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_ICR_R unused
+GPIO_PORTP_IEV_R 4006540C
+
+Symbol: GPIO_PORTP_IEV_R
+   Definitions
+      At line 197 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_IEV_R unused
+GPIO_PORTP_IM_R 40065410
+
+Symbol: GPIO_PORTP_IM_R
+   Definitions
+      At line 198 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_IM_R unused
+GPIO_PORTP_IS_R 40065404
+
+Symbol: GPIO_PORTP_IS_R
+   Definitions
+      At line 195 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_IS_R unused
+GPIO_PORTP_LOCK_R 40065520
+
+Symbol: GPIO_PORTP_LOCK_R
+   Definitions
+      At line 211 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_LOCK_R unused
+GPIO_PORTP_MIS_R 40065418
+
+Symbol: GPIO_PORTP_MIS_R
+   Definitions
+      At line 200 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_MIS_R unused
+GPIO_PORTP_ODR_R 4006550C
+
+Symbol: GPIO_PORTP_ODR_R
+   Definitions
+      At line 206 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_ODR_R unused
+
+
+
+ARM Macro Assembler    Page 22 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTP_PCTL_R 4006552C
+
+Symbol: GPIO_PORTP_PCTL_R
+   Definitions
+      At line 214 in file gpio.s
+   Uses
+      At line 297 in file gpio.s
+Comment: GPIO_PORTP_PCTL_R used once
+GPIO_PORTP_PC_R 40065FC4
+
+Symbol: GPIO_PORTP_PC_R
+   Definitions
+      At line 223 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_PC_R unused
+GPIO_PORTP_PDR_R 40065514
+
+Symbol: GPIO_PORTP_PDR_R
+   Definitions
+      At line 208 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_PDR_R unused
+GPIO_PORTP_PP_R 40065FC0
+
+Symbol: GPIO_PORTP_PP_R
+   Definitions
+      At line 222 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_PP_R unused
+GPIO_PORTP_PUR_R 40065510
+
+Symbol: GPIO_PORTP_PUR_R
+   Definitions
+      At line 207 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_PUR_R unused
+GPIO_PORTP_RIS_R 40065414
+
+Symbol: GPIO_PORTP_RIS_R
+   Definitions
+      At line 199 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_RIS_R unused
+GPIO_PORTP_SI_R 40065538
+
+Symbol: GPIO_PORTP_SI_R
+   Definitions
+      At line 217 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_SI_R unused
+GPIO_PORTP_SLR_R 40065518
+
+Symbol: GPIO_PORTP_SLR_R
+
+
+
+ARM Macro Assembler    Page 23 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 209 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_SLR_R unused
+GPIO_PORTP_WAKELVL_R 40065544
+
+Symbol: GPIO_PORTP_WAKELVL_R
+   Definitions
+      At line 220 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_WAKELVL_R unused
+GPIO_PORTP_WAKEPEN_R 40065540
+
+Symbol: GPIO_PORTP_WAKEPEN_R
+   Definitions
+      At line 219 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_WAKEPEN_R unused
+GPIO_PORTP_WAKESTAT_R 40065548
+
+Symbol: GPIO_PORTP_WAKESTAT_R
+   Definitions
+      At line 221 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTP_WAKESTAT_R unused
+GPIO_PORTQ 00004000
+
+Symbol: GPIO_PORTQ
+   Definitions
+      At line 156 in file gpio.s
+   Uses
+      At line 254 in file gpio.s
+      At line 264 in file gpio.s
+
+GPIO_PORTQ_ADCCTL_R 40066530
+
+Symbol: GPIO_PORTQ_ADCCTL_R
+   Definitions
+      At line 147 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_ADCCTL_R unused
+GPIO_PORTQ_AFSEL_R 40066420
+
+Symbol: GPIO_PORTQ_AFSEL_R
+   Definitions
+      At line 134 in file gpio.s
+   Uses
+      At line 334 in file gpio.s
+Comment: GPIO_PORTQ_AFSEL_R used once
+GPIO_PORTQ_AMSEL_R 40066528
+
+Symbol: GPIO_PORTQ_AMSEL_R
+   Definitions
+      At line 145 in file gpio.s
+
+
+
+ARM Macro Assembler    Page 24 Alphabetic symbol ordering
+Absolute symbols
+
+   Uses
+      At line 278 in file gpio.s
+Comment: GPIO_PORTQ_AMSEL_R used once
+GPIO_PORTQ_CR_R 40066524
+
+Symbol: GPIO_PORTQ_CR_R
+   Definitions
+      At line 144 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_CR_R unused
+GPIO_PORTQ_DATA_BITS_R 40066000
+
+Symbol: GPIO_PORTQ_DATA_BITS_R
+   Definitions
+      At line 124 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_DATA_BITS_R unused
+GPIO_PORTQ_DATA_R 400663FC
+
+Symbol: GPIO_PORTQ_DATA_R
+   Definitions
+      At line 125 in file gpio.s
+   Uses
+      At line 444 in file gpio.s
+Comment: GPIO_PORTQ_DATA_R used once
+GPIO_PORTQ_DEN_R 4006651C
+
+Symbol: GPIO_PORTQ_DEN_R
+   Definitions
+      At line 142 in file gpio.s
+   Uses
+      At line 350 in file gpio.s
+Comment: GPIO_PORTQ_DEN_R used once
+GPIO_PORTQ_DIR_R 40066400
+
+Symbol: GPIO_PORTQ_DIR_R
+   Definitions
+      At line 126 in file gpio.s
+   Uses
+      At line 309 in file gpio.s
+Comment: GPIO_PORTQ_DIR_R used once
+GPIO_PORTQ_DMACTL_R 40066534
+
+Symbol: GPIO_PORTQ_DMACTL_R
+   Definitions
+      At line 148 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_DMACTL_R unused
+GPIO_PORTQ_DR12R_R 4006653C
+
+Symbol: GPIO_PORTQ_DR12R_R
+   Definitions
+      At line 150 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_DR12R_R unused
+
+
+
+ARM Macro Assembler    Page 25 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTQ_DR2R_R 40066500
+
+Symbol: GPIO_PORTQ_DR2R_R
+   Definitions
+      At line 135 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_DR2R_R unused
+GPIO_PORTQ_DR4R_R 40066504
+
+Symbol: GPIO_PORTQ_DR4R_R
+   Definitions
+      At line 136 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_DR4R_R unused
+GPIO_PORTQ_DR8R_R 40066508
+
+Symbol: GPIO_PORTQ_DR8R_R
+   Definitions
+      At line 137 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_DR8R_R unused
+GPIO_PORTQ_IBE_R 40066408
+
+Symbol: GPIO_PORTQ_IBE_R
+   Definitions
+      At line 128 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_IBE_R unused
+GPIO_PORTQ_ICR_R 4006641C
+
+Symbol: GPIO_PORTQ_ICR_R
+   Definitions
+      At line 133 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_ICR_R unused
+GPIO_PORTQ_IEV_R 4006640C
+
+Symbol: GPIO_PORTQ_IEV_R
+   Definitions
+      At line 129 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_IEV_R unused
+GPIO_PORTQ_IM_R 40066410
+
+Symbol: GPIO_PORTQ_IM_R
+   Definitions
+      At line 130 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_IM_R unused
+GPIO_PORTQ_IS_R 40066404
+
+Symbol: GPIO_PORTQ_IS_R
+
+
+
+ARM Macro Assembler    Page 26 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 127 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_IS_R unused
+GPIO_PORTQ_LOCK_R 40066520
+
+Symbol: GPIO_PORTQ_LOCK_R
+   Definitions
+      At line 143 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_LOCK_R unused
+GPIO_PORTQ_MIS_R 40066418
+
+Symbol: GPIO_PORTQ_MIS_R
+   Definitions
+      At line 132 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_MIS_R unused
+GPIO_PORTQ_ODR_R 4006650C
+
+Symbol: GPIO_PORTQ_ODR_R
+   Definitions
+      At line 138 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_ODR_R unused
+GPIO_PORTQ_PCTL_R 4006652C
+
+Symbol: GPIO_PORTQ_PCTL_R
+   Definitions
+      At line 146 in file gpio.s
+   Uses
+      At line 293 in file gpio.s
+Comment: GPIO_PORTQ_PCTL_R used once
+GPIO_PORTQ_PC_R 40066FC4
+
+Symbol: GPIO_PORTQ_PC_R
+   Definitions
+      At line 155 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_PC_R unused
+GPIO_PORTQ_PDR_R 40066514
+
+Symbol: GPIO_PORTQ_PDR_R
+   Definitions
+      At line 140 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_PDR_R unused
+GPIO_PORTQ_PP_R 40066FC0
+
+Symbol: GPIO_PORTQ_PP_R
+   Definitions
+      At line 154 in file gpio.s
+   Uses
+
+
+
+ARM Macro Assembler    Page 27 Alphabetic symbol ordering
+Absolute symbols
+
+      None
+Comment: GPIO_PORTQ_PP_R unused
+GPIO_PORTQ_PUR_R 40066510
+
+Symbol: GPIO_PORTQ_PUR_R
+   Definitions
+      At line 139 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_PUR_R unused
+GPIO_PORTQ_RIS_R 40066414
+
+Symbol: GPIO_PORTQ_RIS_R
+   Definitions
+      At line 131 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_RIS_R unused
+GPIO_PORTQ_SI_R 40066538
+
+Symbol: GPIO_PORTQ_SI_R
+   Definitions
+      At line 149 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_SI_R unused
+GPIO_PORTQ_SLR_R 40066518
+
+Symbol: GPIO_PORTQ_SLR_R
+   Definitions
+      At line 141 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_SLR_R unused
+GPIO_PORTQ_WAKELVL_R 40066544
+
+Symbol: GPIO_PORTQ_WAKELVL_R
+   Definitions
+      At line 152 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_WAKELVL_R unused
+GPIO_PORTQ_WAKEPEN_R 40066540
+
+Symbol: GPIO_PORTQ_WAKEPEN_R
+   Definitions
+      At line 151 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_WAKEPEN_R unused
+GPIO_PORTQ_WAKESTAT_R 40066548
+
+Symbol: GPIO_PORTQ_WAKESTAT_R
+   Definitions
+      At line 153 in file gpio.s
+   Uses
+      None
+Comment: GPIO_PORTQ_WAKESTAT_R unused
+NVIC_EN1_R E000E104
+
+
+
+ARM Macro Assembler    Page 28 Alphabetic symbol ordering
+Absolute symbols
+
+
+Symbol: NVIC_EN1_R
+   Definitions
+      At line 17 in file gpio.s
+   Uses
+      At line 404 in file gpio.s
+Comment: NVIC_EN1_R used once
+NVIC_PRI12_R E000E430
+
+Symbol: NVIC_PRI12_R
+   Definitions
+      At line 18 in file gpio.s
+   Uses
+      At line 410 in file gpio.s
+Comment: NVIC_PRI12_R used once
+SYSCTL_PRGPIO_R 400FEA08
+
+Symbol: SYSCTL_PRGPIO_R
+   Definitions
+      At line 13 in file gpio.s
+   Uses
+      At line 259 in file gpio.s
+Comment: SYSCTL_PRGPIO_R used once
+SYSCTL_RCGCGPIO_R 400FE608
+
+Symbol: SYSCTL_RCGCGPIO_R
+   Definitions
+      At line 12 in file gpio.s
+   Uses
+      At line 250 in file gpio.s
+Comment: SYSCTL_RCGCGPIO_R used once
+202 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+DisableInterrupts 00000000
+
+Symbol: DisableInterrupts
+   Definitions
+      At line 241 in file gpio.s
+   Uses
+      None
+Comment: DisableInterrupts unused
+EnableInterrupts 00000000
+
+Symbol: EnableInterrupts
+   Definitions
+      At line 240 in file gpio.s
+   Uses
+      None
+Comment: EnableInterrupts unused
+SysTick_Wait1ms 00000000
+
+Symbol: SysTick_Wait1ms
+   Definitions
+      At line 242 in file gpio.s
+   Uses
+      At line 489 in file gpio.s
+Comment: SysTick_Wait1ms used once
+3 symbols
+550 symbols in table
