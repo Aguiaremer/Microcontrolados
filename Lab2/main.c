@@ -18,6 +18,7 @@ void escreve_lcd(char);
 void escreve_lcd_string(const char *string);
 void limpa_lcd();
 char varrer_teclado();
+void move_cursor_lcd(uint8_t pos);
 
 int main(void)
 {
@@ -32,12 +33,12 @@ int main(void)
 	int valido;
 	int correto;
 	int tentativa=0;
+	escreve_lcd_string("Cofre aberto");
 	while (1)
 	{
 		switch(estado){
 			case 0:
 				//cofre aberto
-				escreve_lcd_string("Cofre aberto");
 				tecla=varrer_teclado();
 				if(tecla=='A' || tecla=='B' || tecla=='C' || tecla=='D' || tecla=='F'){}
 				else if(tecla=='#') {
@@ -53,7 +54,9 @@ int main(void)
 						}
 						//roda motor
 						tentativa=0;
+						limpa_lcd();
 						estado=1;
+						escreve_lcd_string("Cofre fechado");
 					}	
 					else{
 						escreve_lcd_string("erro");
@@ -67,7 +70,6 @@ int main(void)
 				break;
 			case 1:
 				//cofre fechado
-				escreve_lcd_string("Cofre fechado");
 				tecla=varrer_teclado();
 				if(tecla=='A' || tecla=='B' || tecla=='C' || tecla=='D' || tecla=='F'){}
 				else if(tecla=='#') {
