@@ -35,12 +35,13 @@ void GPIO_Init(void)
 	UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
 	
 
-	UART0_IBRD_R =0x56;
-	UART0_FBRD_R =0x34;
+	UART0_IBRD_R =520;
+	UART0_FBRD_R =33;
 	
 	UART0_LCRH_R  = UART0_LCRH_R  | UART_LCRH_WLEN_8;
 	UART0_LCRH_R = UART0_LCRH_R | UART_LCRH_FEN;
 	UART0_LCRH_R = UART0_LCRH_R | UART_LCRH_STP2;
+	UART0_LCRH_R = UART0_LCRH_R | UART_LCRH_PEN;
 	
 	UART0_CC_R = 0x00;
 	
@@ -117,8 +118,8 @@ void inicializa_timer(){
 	TIMER2_CTL_R=1;
 }
 char escutar(){
-	while(UART0_FR_R & UART_FR_RXFE);
-	return UART0_DR_R;
+
+	return UART0_DR_R & 0xFF;
 }
 
 void transmitir(char dado){
@@ -164,8 +165,8 @@ void altera_velocidade(int sentido, int velo){
 	else if(sentido == 1){
 		velocidade_alvo= velo* -1;
 	}
-	
 }
+
 void Timer2A_Handler(){
 	TIMER2_ICR_R = 0x01;
 	if(velocidade!= velocidade_alvo){

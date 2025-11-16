@@ -27,10 +27,22 @@ Project File Date:  11/16/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.24', folder: 'C:\Users\aguia\AppData\Local\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-compiling main.c...
+gpio.c(35): warning: logical not is only applied to the left hand side of this bitwise operator [-Wlogical-not-parentheses]
+   35 |         UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
+      |                        ^                ~
+gpio.c(35): note: add parentheses after the '!' to evaluate the bitwise operator first
+   35 |         UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
+      |                        ^                             
+      |                         (                            )
+gpio.c(35): note: add parentheses around left hand side expression to silence this warning
+   35 |         UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
+      |                        ^
+      |                        (               )
+1 warning generated.
+compiling gpio.c...
 linking...
-Program Size: Code=1812 RO-data=16 RW-data=0 ZI-data=1120  
-".\Objects\exemplo.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=2772 RO-data=308 RW-data=4 ZI-data=1152  
+".\Objects\exemplo.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -43,7 +55,7 @@ Package Vendor: Keil
   C:/Users/aguia/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C129
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
