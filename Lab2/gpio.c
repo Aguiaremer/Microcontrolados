@@ -7,12 +7,17 @@
 #include <stdint.h>
 
 #include "tm4c1294ncpdt.h"
+#include "main.h"
 
-#define GPIO_PORTJ  (0x0100) //bit 8
-#define GPIO_PORTN  (0x1000) //bit 12
-#define GPIO_PORTK  (0x0200) //bit 9
-#define GPIO_PORTM  (0x0800) //bit 11
-#define GPIO_PORTL 	(0x0400)
+#define GPIO_PORTA (0x0001)
+#define GPIO_PORTJ (0x0100)
+#define GPIO_PORTK (0x0200)
+#define GPIO_PORTL (0x0400)
+#define GPIO_PORTM (0x0800)
+#define GPIO_PORTN (0x1000)
+#define GPIO_PORTH (0x0080)
+#define GPIO_PORTQ (0x4000)
+#define GPIO_PORTP (0x2000)
 
 void Timer2A_Handler();
 void SysTick_Wait1ms(uint32_t delay);
@@ -26,50 +31,85 @@ void inicializa_timer();
 // Parâmetro de saída: Não tem
 void GPIO_Init(void)
 {
-	// 1a. Ativar o clock para a porta setando o bit correspondente no registrador RCGCGPIO
-	SYSCTL_RCGCGPIO_R = (GPIO_PORTJ | GPIO_PORTN | GPIO_PORTK | GPIO_PORTM | GPIO_PORTL);
-	//1b.   após isso verificar no PRGPIO se a porta está pronta para uso.
-  while((SYSCTL_PRGPIO_R & 	(GPIO_PORTJ | GPIO_PORTN | GPIO_PORTK | GPIO_PORTM | GPIO_PORTL) ) != 
-														(GPIO_PORTJ | GPIO_PORTN | GPIO_PORTK | GPIO_PORTM | GPIO_PORTL) ){};
-	
-	// 2. Limpar o AMSEL para desabilitar a analógica
-	GPIO_PORTJ_AHB_AMSEL_R = 0x00;
-	GPIO_PORTN_AMSEL_R = 0x00;
-	GPIO_PORTK_AMSEL_R = 0x00;
-	GPIO_PORTM_AMSEL_R = 0x00;
-	GPIO_PORTL_AMSEL_R = 0x00;
-		
-	// 3. Limpar PCTL para selecionar o GPIO
-	GPIO_PORTJ_AHB_PCTL_R = 0x00;
-	GPIO_PORTN_PCTL_R = 0x00;
-	GPIO_PORTK_PCTL_R = 0x00;
-	GPIO_PORTM_PCTL_R = 0x00;
-	GPIO_PORTL_PCTL_R = 0x00;
+	 SYSCTL_RCGCGPIO_R =
+        (GPIO_PORTA | GPIO_PORTJ | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM |
+         GPIO_PORTN | GPIO_PORTH | GPIO_PORTQ | GPIO_PORTP);
+    // 1b.   ap?s isso verificar no PRGPIO se a porta est? pronta para uso.
+    while ((SYSCTL_PRGPIO_R &
+            (GPIO_PORTA | GPIO_PORTJ | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM |
+             GPIO_PORTN | GPIO_PORTH | GPIO_PORTQ | GPIO_PORTP)) !=
+           (GPIO_PORTA | GPIO_PORTJ | GPIO_PORTK | GPIO_PORTL | GPIO_PORTM |
+            GPIO_PORTN | GPIO_PORTH | GPIO_PORTQ | GPIO_PORTP))
+    {
+    };
 
-	// 4. DIR para 0 se for entrada, 1 se for saída
-	GPIO_PORTJ_AHB_DIR_R = 0x00;
-	GPIO_PORTN_DIR_R = 0x03; //BIT0 | BIT1
-	GPIO_PORTK_DIR_R = 0xFF;
-	GPIO_PORTM_DIR_R = 0x07;
-	GPIO_PORTL_DIR_R = 0x00;
-		
-	// 5. Limpar os bits AFSEL para 0 para selecionar GPIO sem função alternativa	
-	GPIO_PORTJ_AHB_AFSEL_R = 0x00;
-	GPIO_PORTN_AFSEL_R = 0x00;
-	GPIO_PORTK_AFSEL_R = 0x00;
-	GPIO_PORTM_AFSEL_R = 0x00;
-	GPIO_PORTL_AFSEL_R = 0x00;
-		
-	// 6. Setar os bits de DEN para habilitar I/O digital	
-	GPIO_PORTJ_AHB_DEN_R = 0x03;   //Bit0 e bit1
-	GPIO_PORTN_DEN_R = 0x03; 		   //Bit0 e bit1
-	GPIO_PORTK_DEN_R = 0xFF;
-	GPIO_PORTM_DEN_R = 0xF7;
-	GPIO_PORTL_DEN_R = 0x0F;
-	
-	// 7. Habilitar resistor de pull-up interno, setar PUR para 1
-	GPIO_PORTJ_AHB_PUR_R = 0x03;   //Bit0 e bit1
-	GPIO_PORTL_PUR_R = 0x0F;
+    // 2. Limpar o AMSEL para desabilitar a anal?gica
+    GPIO_PORTJ_AHB_AMSEL_R = 0x00;
+    GPIO_PORTN_AMSEL_R = 0x00;
+    GPIO_PORTL_AMSEL_R = 0x00;
+    GPIO_PORTM_AMSEL_R = 0x00;
+    GPIO_PORTA_AHB_AMSEL_R = 0x00;
+    GPIO_PORTQ_AMSEL_R = 0x00;
+    GPIO_PORTK_AMSEL_R = 0x00;
+    GPIO_PORTH_AHB_AMSEL_R = 0x00;
+    GPIO_PORTP_AMSEL_R = 0x00;
+
+    // 3. Limpar PCTL para selecionar o GPIO
+    GPIO_PORTJ_AHB_PCTL_R = 0x00;
+    GPIO_PORTN_PCTL_R = 0x00;
+    GPIO_PORTL_PCTL_R = 0x00;
+    GPIO_PORTM_PCTL_R = 0x00;
+    GPIO_PORTA_AHB_PCTL_R = 0x00;
+    GPIO_PORTQ_PCTL_R = 0x00;
+    GPIO_PORTK_PCTL_R = 0x00;
+    GPIO_PORTP_PCTL_R = 0x00;
+    GPIO_PORTH_AHB_PCTL_R = 0x00;
+
+    // 4. DIR para 0 se for entrada, 1 se for sa?da
+    GPIO_PORTJ_AHB_DIR_R = 0x00;
+    GPIO_PORTL_DIR_R = 0x00;
+    GPIO_PORTM_DIR_R = 0x07;
+    GPIO_PORTN_DIR_R = 0x03;
+    GPIO_PORTA_AHB_DIR_R = 0xF0; // BIT4 AO BIT7
+    GPIO_PORTQ_DIR_R = 0x0F;     // BIT0, 1, 2, 3
+    GPIO_PORTK_DIR_R = 0xFF;
+    GPIO_PORTP_DIR_R = 0x20;
+    GPIO_PORTH_AHB_DIR_R = 0x0F;
+
+    // 5. Limpar os bits AFSEL para 0 para selecionar GPIO sem fun??o alternativa
+    GPIO_PORTJ_AHB_AFSEL_R = 0x00;
+    GPIO_PORTL_AFSEL_R = 0x00;
+    GPIO_PORTM_AFSEL_R = 0x00;
+    GPIO_PORTN_AFSEL_R = 0x00;
+    GPIO_PORTA_AHB_AFSEL_R = 0x00;
+    GPIO_PORTQ_AFSEL_R = 0x00;
+    GPIO_PORTK_AFSEL_R = 0x00;
+    GPIO_PORTP_AFSEL_R = 0x00;
+    GPIO_PORTH_AHB_AFSEL_R = 0x00;
+
+    // 6. Setar os bits de DEN para habilitar I/O digital
+    GPIO_PORTJ_AHB_DEN_R = 0x03; // Bit0 e bit1
+    GPIO_PORTL_DEN_R = 0x0F;     // Bit0, 1, 2, 3
+    GPIO_PORTM_DEN_R = 0xF7;     //
+    GPIO_PORTN_DEN_R = 0x03;     // Bit0 e bit1
+    GPIO_PORTA_AHB_DEN_R = 0xF0; // BIT4 AO BIT7
+    GPIO_PORTQ_DEN_R = 0x0F;     // BIT0, 1, 2, 3
+    GPIO_PORTK_DEN_R = 0xFF;     // todos
+    GPIO_PORTP_DEN_R = 0x20;     // todos
+    GPIO_PORTH_AHB_DEN_R = 0x0F; // BIT4 AO BIT7
+
+    // 7. Habilitar resistor de pull-up interno, setar PUR para 1
+    GPIO_PORTJ_AHB_PUR_R = 0x03; // Bit0 e bit1
+    GPIO_PORTL_PUR_R = 0x0F;     // Bit0, 1, 2, 3
+
+	GPIO_PORTJ_AHB_IM_R= 0x00;
+	GPIO_PORTJ_AHB_IS_R= 0x00;
+	GPIO_PORTJ_AHB_IBE_R= 0x00;
+	GPIO_PORTJ_AHB_IEV_R= 0x00;	
+	GPIO_PORTJ_AHB_ICR_R= 0x01;
+	GPIO_PORTJ_AHB_IM_R= 0x01;
+	NVIC_EN1_R=0x01<<19;
+	NVIC_PRI12_R =5<<29;
 
 	inicializa_timer();
 	inicializa_lcd();
@@ -325,8 +365,62 @@ void inverteled()
 void Timer2A_Handler()
 {
 		TIMER2_ICR_R = 0x01;
-		inverteled();
+}
+void GPIOPortJ_Handler(void)
+{
+    if ((GPIO_PORTJ_AHB_RIS_R & 0x01) == 0)
+        return; // Verifica se a interrupção foi no pin0
+    // Limpa o evento de interrupção para o pin0
+    GPIO_PORTJ_AHB_ICR_R = 0x01;
+
+    // Sinaliza para o código principal que a tecla foi pressionada
+    usr_sw1_event = 1;
 }
 
+void pisca_led(){
+	GPIO_PORTA_AHB_DATA_R = 0xF0;
+    GPIO_PORTQ_DATA_R = 0xF;
+    GPIO_PORTP_DATA_R = 0x20;
+    SysTick_Wait1ms(100);
+    GPIO_PORTP_DATA_R = 0xDF;
+    SysTick_Wait1ms(100);
+}
 
+void stepper_move(void) {
+  if (velocidade == 2)
+    for (int i = 0; i <= 2040 * 2; i++) {
+      if (sentido == 1)
+        GPIO_PORTH_AHB_DATA_R = ~(8 >> i % 4);
+      else
+        GPIO_PORTH_AHB_DATA_R = ~(1 << i % 4);
+      SysTick_Wait1ms(5);
+    }
+  else
+    for (int i = 0; i <= 2040 * 4; i++) {
+      if (sentido == 1) {
+        int indice = i % 8;
+        if (indice % 2) {
+          GPIO_PORTH_AHB_DATA_R = ~(8 >> (indice / 2));
+        } else {
+          if (indice == 7)
+            GPIO_PORTH_AHB_DATA_R = 6;
+          else
+            GPIO_PORTH_AHB_DATA_R =
+                ~((8 >> (indice / 2)) + (8 >> (indice / 2 + 1)));
+        }
+      } else {
+        int indice = i % 8;
+        if (indice % 2) {
+          GPIO_PORTH_AHB_DATA_R = ~(1 << (indice / 2));
+        } else {
+          if (indice == 7)
+            GPIO_PORTH_AHB_DATA_R = 6;
+          else
+            GPIO_PORTH_AHB_DATA_R =
+                ~((1 << (indice / 2)) + (1 << (indice / 2 + 1)));
+        }
+      }
+      SysTick_Wait1ms(5);
+    }
+}
 

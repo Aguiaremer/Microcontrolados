@@ -3,44 +3,111 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.43.1.0
-Copyright (C) 2025 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Emerson Aguiar, a, LIC=----
+IDE-Version: µVision V5.18.0.0
+Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: DAELN UTFPR, UTFPR, LIC=----
  
 Tool Versions:
-Toolchain:       MDK-Lite  Version: 5.43.0.0
-Toolchain Path:  C:\Users\aguia\AppData\Local\Keil_v5\ARM\ARMCLANG\Bin
-C Compiler:      ArmClang.exe V6.24
-Assembler:       Armasm.exe V6.24
-Linker/Locator:  ArmLink.exe V6.24
-Library Manager: ArmAr.exe V6.24
-Hex Converter:   FromElf.exe V6.24
-CPU DLL:         SARMCM3.DLL V5.43.0.0
-Dialog DLL:      DCM.DLL V1.17.5.0
+Toolchain:       MDK-Lite  Version: 5.18
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 1 (build 61)
+Assembler:       Armasm.exe V5.06 update 1 (build 61)
+Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
+Library Manager: ArmAr.exe V5.06 update 1 (build 61)
+Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
+CPU DLL:         SARMCM3.DLL V5.18
+Dialog DLL:      DCM.DLL V1.13.6.0
 Target DLL:      lmidk-agdi.dll V???
-Dialog DLL:      TCM.DLL V1.56.6.0
+Dialog DLL:      TCM.DLL V1.14.8.0
  
 <h2>Project:</h2>
-C:\Users\aguia\OneDrive\Documentos\Faculdade\Microcontrolados\Lab2\exemplo.uvprojx
+C:\Users\DAELN\Downloads\Microcontrolados-logica-aplicada\Lab2\exemplo.uvprojx
 Project File Date:  10/27/2025
 
 <h2>Output:</h2>
-*** Using Compiler 'V6.24', folder: 'C:\Users\aguia\AppData\Local\Keil_v5\ARM\ARMCLANG\Bin'
+*** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
 compiling main.c...
+main.h(16): warning:  #1295-D: Deprecated declaration pisca_led - give arg types
+  void pisca_led();
+main.h(31): warning:  #1295-D: Deprecated declaration limpa_lcd - give arg types
+  void limpa_lcd();
+main.h(32): warning:  #1295-D: Deprecated declaration varrer_teclado - give arg types
+  char varrer_teclado();
+main.h(46): warning:  #1-D: last line of file ends without a newline
+  #endif // MAIN_H__
+main.c(31): warning:  #550-D: variable "teste" was set but never used
+  	int teste=0;
+main.c(32): warning:  #177-D: variable "empr" was declared but never referenced
+  	char empr[4];
+main.c: 6 warnings, 0 errors
+compiling gpio.c...
+main.h(16): warning:  #1295-D: Deprecated declaration pisca_led - give arg types
+  void pisca_led();
+main.h(31): warning:  #1295-D: Deprecated declaration limpa_lcd - give arg types
+  void limpa_lcd();
+main.h(32): warning:  #1295-D: Deprecated declaration varrer_teclado - give arg types
+  char varrer_teclado();
+main.h(46): warning:  #1-D: last line of file ends without a newline
+  #endif // MAIN_H__
+gpio.c(22): warning:  #1295-D: Deprecated declaration Timer2A_Handler - give arg types
+  void Timer2A_Handler();
+gpio.c(24): warning:  #1295-D: Deprecated declaration inicializa_lcd - give arg types
+  void inicializa_lcd();
+gpio.c(25): warning:  #1295-D: Deprecated declaration inicializa_timer - give arg types
+  void inicializa_timer();
+gpio.c(112): warning:  #61-D: integer operation result is out of range
+  	
+VIC_PRI12_R =5<<29;
+gpio.c(112): warning:  #68-D: integer conversion resulted in a change of sign
+  	
+VIC_PRI12_R =5<<29;
+gpio.c(139): warning:  #61-D: integer operation result is out of range
+  	
+VIC_PRI5_R = 4 << 29;
+gpio.c(139): warning:  #68-D: integer conversion resulted in a change of sign
+  	
+VIC_PRI5_R = 4 << 29;
+gpio.c(239): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(243): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(247): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(251): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(262): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(266): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(270): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(274): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(285): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(289): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(293): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(297): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(308): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(312): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(316): warning:  #111-D: statement is unreachable
+      break;
+gpio.c(320): warning:  #111-D: statement is unreachable
+      break;
+gpio.c: 27 warnings, 0 errors
 linking...
-Program Size: Code=2690 RO-data=22 RW-data=0 ZI-data=1120  
-".\Objects\exemplo.axf" - 0 Error(s), 0 Warning(s).
-
-<h2>Software Packages used:</h2>
-
-Package Vendor: Keil
-                http://www.keil.com/pack/Keil.TM4C_DFP.1.1.0.pack
-                Keil::TM4C_DFP@1.1.0
-                Texas Instruments Tiva C Series Device Support and Examples
+Program Size: Code=3896 RO-data=32 RW-data=8 ZI-data=1120  
+".\Objects\exemplo.axf" - 0 Error(s), 33 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  C:/Users/aguia/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C129
+  C:\Users\DAELN\Downloads\Microcontrolados-logica-aplicada\Lab2\RTE
+  C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129
 
 <h2>Collection of Component Files used:</h2>
 Build Time Elapsed:  00:00:00
