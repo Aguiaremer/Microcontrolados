@@ -1,1 +1,2 @@
-./objects/main.o: main.c tm4c1294ncpdt.h
+./objects/main.o: main.c C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  tm4c1294ncpdt.h

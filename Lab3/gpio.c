@@ -170,7 +170,7 @@ void altera_velocidade(int sentido, int velo){
 
 void Timer2A_Handler(){
 	TIMER2_ICR_R = 0x01;
-	char* texto="velocidade: 00"
+	char* texto="velocidade: 00";
 	if(velocidade!= velocidade_alvo){
 		timer_acelerador--;
 		if(timer_acelerador<=0){

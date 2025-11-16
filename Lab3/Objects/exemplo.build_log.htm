@@ -3,59 +3,59 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.43.1.0
-Copyright (C) 2025 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Emerson Aguiar, a, LIC=----
+IDE-Version: µVision V5.36.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: thiago miyasawa, UTFPR, LIC=----
  
 Tool Versions:
-Toolchain:       MDK-Lite  Version: 5.43.0.0
-Toolchain Path:  C:\Users\aguia\AppData\Local\Keil_v5\ARM\ARMCLANG\Bin
-C Compiler:      ArmClang.exe V6.24
-Assembler:       Armasm.exe V6.24
-Linker/Locator:  ArmLink.exe V6.24
-Library Manager: ArmAr.exe V6.24
-Hex Converter:   FromElf.exe V6.24
-CPU DLL:         SARMCM3.DLL V5.43.0.0
-Dialog DLL:      DCM.DLL V1.17.5.0
+Toolchain:       MDK-Lite  Version: 5.36.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.16
+Assembler:       Armasm.exe V6.16
+Linker/Locator:  ArmLink.exe V6.16
+Library Manager: ArmAr.exe V6.16
+Hex Converter:   FromElf.exe V6.16
+CPU DLL:         SARMCM3.DLL V5.36.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
 Target DLL:      lmidk-agdi.dll V???
-Dialog DLL:      TCM.DLL V1.56.6.0
+Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-C:\Users\aguia\OneDrive\Documentos\Faculdade\Microcontrolados\Lab3\exemplo.uvprojx
+C:\Users\thiag\Desktop\microcontrolados\Lab3\exemplo.uvprojx
 Project File Date:  11/16/2025
 
 <h2>Output:</h2>
-*** Using Compiler 'V6.24', folder: 'C:\Users\aguia\AppData\Local\Keil_v5\ARM\ARMCLANG\Bin'
+*** Using Compiler 'V6.16', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-gpio.c(35): warning: logical not is only applied to the left hand side of this bitwise operator [-Wlogical-not-parentheses]
-   35 |         UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
-      |                        ^                ~
-gpio.c(35): note: add parentheses after the '!' to evaluate the bitwise operator first
-   35 |         UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
-      |                        ^                             
-      |                         (                            )
-gpio.c(35): note: add parentheses around left hand side expression to silence this warning
-   35 |         UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
-      |                        ^
-      |                        (               )
+gpio.c(36): warning: logical not is only applied to the left hand side of this bitwise operator [-Wlogical-not-parentheses]
+        UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
+                       ^                ~
+gpio.c(36): note: add parentheses after the '!' to evaluate the bitwise operator first
+        UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
+                       ^
+                        (                            )
+gpio.c(36): note: add parentheses around left hand side expression to silence this warning
+        UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
+                       ^
+                       (               )
 1 warning generated.
 compiling gpio.c...
 linking...
-Program Size: Code=2772 RO-data=308 RW-data=4 ZI-data=1152  
+Program Size: Code=2850 RO-data=306 RW-data=8 ZI-data=1152  
 ".\Objects\exemplo.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: Keil
                 http://www.keil.com/pack/Keil.TM4C_DFP.1.1.0.pack
-                Keil::TM4C_DFP@1.1.0
+                Keil.TM4C_DFP.1.1.0
                 Texas Instruments Tiva C Series Device Support and Examples
 
 <h2>Collection of Component include folders:</h2>
-  C:/Users/aguia/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C129
+  C:\Users\thiag\AppData\Local\Arm\Packs\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C129
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
