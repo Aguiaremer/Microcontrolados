@@ -24,6 +24,7 @@ int velocidade = 0;
 int on_off = 0;
 int timer_pwm = 0;
 int timer_acelerador= 500;
+int timer_velocidade=100000;
 
 void GPIO_Init(void)
 {
@@ -169,6 +170,7 @@ void altera_velocidade(int sentido, int velo){
 
 void Timer2A_Handler(){
 	TIMER2_ICR_R = 0x01;
+	char* texto="velocidade: 00"
 	if(velocidade!= velocidade_alvo){
 		timer_acelerador--;
 		if(timer_acelerador<=0){
@@ -193,6 +195,14 @@ void Timer2A_Handler(){
 			on_off=1;
 			//motor(ligado)
 		}
+	}
+	
+	timer_velocidade--;
+	if(timer_velocidade<=0){
+		timer_velocidade=100000;
+		texto[12]='0'+(velocidade/10);
+		texto[13]='0'+(velocidade%10);
+		transmitir_string(texto);
 	}
 }
 
