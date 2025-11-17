@@ -3,28 +3,24 @@
 // Inicializa as portas J e N
 // Prof. Guilherme Peron
 
-
-#include <stdint.h>
-
-#include "tm4c1294ncpdt.h"
-
-  
-#define GPIO_PORTA  (0x0001) //bit 0
-#define GPIO_PORTN  (0x1000) //bit 12
-#define GPIO_PORTE  (0x0010)
-// -------------------------------------------------------------------------------
-// Função GPIO_Init
-// Inicializa os ports J e N
-// Parâmetro de entrada: Não tem
-// Parâmetro de saída: Não tem
-void Timer2A_Handler();
+#include "main.h"
 
 int velocidade_alvo = 0;
 int velocidade = 0;
 int on_off = 0;
 int timer_pwm = 0;
-int timer_acelerador= 500;
+int timer_acelerador=500;
 int timer_velocidade=100000;
+ 
+// -------------------------------------------------------------------------------
+// Função GPIO_Init
+// Inicializa os ports J e N
+// Parâmetro de entrada: Não tem
+// Parâmetro de saída: Não tem
+
+#define GPIO_PORTA  (0x0001) //bit 0
+#define GPIO_PORTN  (0x1000) //bit 12
+#define GPIO_PORTE  (0x0010)
 
 void GPIO_Init(void)
 {
@@ -33,7 +29,7 @@ void GPIO_Init(void)
 	while(SYSCTL_PRUART_R != 0x01){
 	}
 	
-	UART0_CTL_R =  !UART_CTL_UARTEN & UART0_CTL_R;
+	UART0_CTL_R =  !(UART_CTL_UARTEN) & UART0_CTL_R;
 	
 
 	UART0_IBRD_R =520;
@@ -134,6 +130,54 @@ void transmitir_string(const char *string) {
   }
 }
 
+char* int_to_str(int valor)
+{
+    static char str[16];  // buffer fixo (retorno)
+    int i = 0;
+    int j = 0;
+    int temp;
+    int negativo = 0;
+
+    // Trata negativo
+    if (valor < 0) {
+        negativo = 1;
+        valor = -valor;
+    }
+
+    // Caso especial: zero
+    if (valor == 0) {
+        str[0] = '0';
+        str[1] = '\0';
+        return str;
+    }
+
+    // Converte ao contrário
+    while (valor > 0) {
+        temp = valor % 10;
+        str[i++] = '0' + temp;
+        valor /= 10;
+    }
+
+    // Se era negativo, adiciona '-'
+    if (negativo) {
+        str[i++] = '-';
+    }
+
+    str[i] = '\0';
+
+    // Inverte a string
+    i--;
+    while (j < i) {
+        char c = str[j];
+        str[j] = str[i];
+        str[i] = c;
+        j++;
+        i--;
+    }
+
+    return str;
+}
+
 
 // -------------------------------------------------------------------------------
 // Função PortN_Output
@@ -200,9 +244,18 @@ void Timer2A_Handler(){
 	timer_velocidade--;
 	if(timer_velocidade<=0){
 		timer_velocidade=100000;
-		texto[12]='0'+(velocidade/10);
-		texto[13]='0'+(velocidade%10);
-		transmitir_string(texto);
+		if(estado == 2 || estado == 4){
+			if(sentido){
+				transmitir_string("\r\nsentido anti-horario\r\n");
+			}
+			else{
+				transmitir_string("\r\nsentido horario\r\n");
+			}
+			transmitir_string("\r\n");
+			transmitir_string(int_to_str(velocidade));
+			transmitir_string("\r\n");		
+		}
+
 	}
 }
 

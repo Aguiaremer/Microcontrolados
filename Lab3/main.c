@@ -4,21 +4,10 @@
 // Caso as duas chaves estejam pressionadas ao mesmo tempo pisca os LEDs alternadamente a cada 500ms.
 // Prof. Guilherme Peron
 
-#include <stdint.h>
-#include "tm4c1294ncpdt.h"
-void PLL_Init(void);
-void SysTick_Init(void);
-void SysTick_Wait1ms(uint32_t delay);
-void SysTick_Wait1us(uint32_t delay);
-void GPIO_Init(void);
-void inicializa_timer();
-void PortN_Output(uint32_t leds);
-void transmitir(char dado);
-char escutar();
-int ler_potenciometro();
-void transmitir_string(const char *string);
-char* int_to_str(int valor);
+#include "main.h"
 
+int estado=0;
+int sentido;
 
 int main(void)
 {
@@ -28,11 +17,8 @@ int main(void)
 	inicializa_timer();
 	SysTick_Wait1ms(1000);
 	int poten;
-	int estado =0;
 	char comando;
 	int controlador;
-	int sentido;
-	int velocidade;
 	transmitir_string("\r\ndigite '*' para comecar\r\n");
 	while (1)
 	{
@@ -65,27 +51,17 @@ int main(void)
 				poten=ler_potenciometro();
 				if(poten==2048){
 					sentido=0;
-					velocidade=0;
+					velocidade_alvo=0;
 				}
 				else if(poten>2048){
 					sentido=0;
-					velocidade=(poten-2048)*100/2047;
+					velocidade_alvo=(poten-2048)*100/2047;
 				}
 				else{
 					sentido=1;
-					velocidade=(2048-poten)*100/2048;
+					velocidade_alvo=(2048-poten)*100/2048;
 				}
-				
-				if(sentido){
-					transmitir_string("\r\nsentido anti-horario\r\n");
-				}
-				else{
-					transmitir_string("\r\nsentido horario\r\n");
-				}
-				transmitir_string("\r\n");
-				transmitir_string(int_to_str(velocidade));
-				transmitir_string("\r\n");
-				
+
 				comando = escutar();
 				if(comando=='s'){
 					estado=1;
@@ -109,10 +85,10 @@ int main(void)
 						comando = escutar();
 				}
 				if (comando=='0'){
-					velocidade =100; 
+					velocidade_alvo =100; 
 				}
 				else{
-					velocidade = (comando-'0')*10;
+					velocidade_alvo = (comando-'0')*10;
 				}
 				estado=4;
 				transmitir_string("\r\nMotor inicializado\r\n");
@@ -130,10 +106,10 @@ int main(void)
 				}
 				if((comando >= '5' && comando <= '9') || comando == '0'){
 					if (comando=='0'){
-						velocidade =100; 
+						velocidade_alvo =100; 
 					}
 					else{
-						velocidade = (comando-'0')*10;
+						velocidade_alvo = (comando-'0')*10;
 					}
 					transmitir_string("\r\nVelocidade atualizada\r\n");
 				}
@@ -147,52 +123,4 @@ int main(void)
 		
 
 	}
-}
-
-char* int_to_str(int valor)
-{
-    static char str[16];  // buffer fixo (retorno)
-    int i = 0;
-    int j = 0;
-    int temp;
-    int negativo = 0;
-
-    // Trata negativo
-    if (valor < 0) {
-        negativo = 1;
-        valor = -valor;
-    }
-
-    // Caso especial: zero
-    if (valor == 0) {
-        str[0] = '0';
-        str[1] = '\0';
-        return str;
-    }
-
-    // Converte ao contrário
-    while (valor > 0) {
-        temp = valor % 10;
-        str[i++] = '0' + temp;
-        valor /= 10;
-    }
-
-    // Se era negativo, adiciona '-'
-    if (negativo) {
-        str[i++] = '-';
-    }
-
-    str[i] = '\0';
-
-    // Inverte a string
-    i--;
-    while (j < i) {
-        char c = str[j];
-        str[j] = str[i];
-        str[i] = c;
-        j++;
-        i--;
-    }
-
-    return str;
 }
